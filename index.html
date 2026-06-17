@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE PAVAN CLOTHING CO.</title>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -52,7 +51,6 @@
             gap: 20px;
         }
 
-        /* Hamburger Trigger Button */
         #menu-trigger-btn {
             background: none;
             border: none;
@@ -69,7 +67,7 @@
             text-shadow: 0 0 10px var(--matrix-green);
         }
 
-        /* Left Sliding Sidebar */
+        /* THE LEFT SIDEBAR PANEL */
         #left-sidebar-navigation-panel {
             position: fixed;
             top: 0;
@@ -152,7 +150,6 @@
             font-size: 20px;
             letter-spacing: 3px;
             color: #fff;
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
 
         .logo span {
@@ -404,7 +401,6 @@
             box-shadow: 0 0 15px var(--matrix-green);
         }
 
-        /* Responsive */
         @media (max-width: 450px) {
             #pavan-admin-panel {
                 width: 100%;
@@ -418,10 +414,9 @@
 </head>
 <body>
 
-    <!-- NAV BAR -->
     <header>
         <div class="nav-left">
-            <button id="menu-trigger-btn" title="Open Navigation Menu">
+            <button id="menu-trigger-btn">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <div class="logo">
@@ -436,19 +431,18 @@
         </div>
     </header>
 
-    <!-- SLIDING SIDEBAR (LEFT) -->
     <nav id="left-sidebar-navigation-panel">
         <div class="sidebar-header">
             <h3>NAVIGATION</h3>
-            <button class="close-sidebar-btn" id="close-nav-sidebar" title="Close Menu">
+            <button class="close-sidebar-btn" id="close-nav-sidebar">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
         <div class="sidebar-links">
-            <a href="#"><i class="fa-solid fa-house"></i> Home Matrix</a>
+            <a href="#"><i class="fa-solid fa-house"></i> Home</a>
             <a href="#"><i class="fa-solid fa-bolt"></i> New Arrivals</a>
             <a href="#"><i class="fa-solid fa-tags"></i> Collections</a>
-            <a href="#"><i class="fa-solid fa-user-secret"></i> About Developer</a>
+            <a href="#"><i class="fa-solid fa-user-secret"></i> About</a>
             <hr style="border-color: var(--border-color); margin: 10px 0;">
             <button id="trigger-pavan-panel-btn">
                 <i class="fa-solid fa-terminal" style="color: var(--matrix-green);"></i> Pavan Panel
@@ -456,15 +450,12 @@
         </div>
     </nav>
 
-    <!-- LIVE CATALOG -->
     <main>
         <h2 class="section-title">// SYSTEM_CATALOG_LOADED</h2>
         <div class="catalog-grid" id="main-catalog-grid-display">
-            <!-- Products inject transparently here -->
-        </div>
+            </div>
     </main>
 
-    <!-- ADVANCED PAVAN CONTROL CENTER PANEL (RIGHT) -->
     <div id="pavan-admin-panel">
         <div class="panel-header">
             <h2>PAVAN CONTROL CENTER v2.4</h2>
@@ -502,64 +493,110 @@
         <button class="inject-btn" id="execute-injection-btn">UPLOAD & INJECT PRODUCT</button>
     </div>
 
-    <!-- MAIN APP CORE SCRIPT -->
     <script>
-        // 1. ALL ORIGINAL DEFAULT PRODUCTS RESTORED
+        // 12 HIGH QUALITY PRODUCTS CATALOG ARRAY LOADED
         const DEFAULT_CATALOG = [
             {
                 id: 1,
                 hubLabel: "Oversized Streetwear",
                 name: "Cyber Tokyo Overdrive Tee",
                 price: 1299,
-                desc: "240 GSM premium heavy-weight loopknit cotton. High-density puff print graphic.",
-                img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500"
+                desc: "High-definition puff print graphic. Ultra-premium 240 GSM heavy-weight loopknit cotton.",
+                img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80"
             },
             {
                 id: 2,
                 hubLabel: "Premium Anime Hoodies",
                 name: "Gojo Domain Infinite Hoodie",
                 price: 2799,
-                desc: "400 GSM ultra-soft fleece hoodie. Cyberpunk style graphics with premium embroidery.",
-                img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500"
+                desc: "Luxury cyberpunk anime design. 400 GSM ultra-soft fleece with high-density premium embroidery.",
+                img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80"
             },
             {
                 id: 3,
                 hubLabel: "Baggy Parachute Cargo",
                 name: "Tactical Matrix Cargo Pants",
                 price: 2199,
-                desc: "Water-resistant ripstop fabric. Adjustable ankle toggles with multi-utility tactical pockets.",
-                img: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?w=500"
+                desc: "Water-resistant techwear ripstop fabric. Adjustable ankle toggles with multiple tactical pockets.",
+                img: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?w=800&auto=format&fit=crop&q=80"
             },
             {
                 id: 4,
                 hubLabel: "Luxury Drop Shoulder",
                 name: "Acid Wash Vintage Aesthetic Tee",
                 price: 1499,
-                desc: "Custom washed finish giving unique luxury street texture. 100% combed cotton.",
-                img: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=500"
+                desc: "Custom heavy washed vintage finish giving rich streetwear texture. 100% combed cotton.",
+                img: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&auto=format&fit=crop&q=80"
             },
             {
                 id: 5,
                 hubLabel: "Oversized Streetwear",
                 name: "Neon Shinjuku Phantom Tee",
                 price: 1399,
-                desc: "Glow in the dark premium matrix ink layout. Relaxed streetwear comfort drop fit.",
-                img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500"
+                desc: "Glow in the dark matrix ink layout. Relaxed aesthetic streetwear comfort drop shoulder fit.",
+                img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80"
             },
             {
                 id: 6,
                 hubLabel: "Premium Anime Hoodies",
                 name: "Sukuna Cursed King Cloak Hoodie",
                 price: 2899,
-                desc: "Deep crimson premium threadwork. Oversized fit with dual drawstrings and metal aglets.",
-                img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500"
+                desc: "Deep crimson premium threadwork. Oversized heavy hoodie fit with gunmetal drawstring aglets.",
+                img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&auto=format&fit=crop&q=80"
+            },
+            {
+                id: 7,
+                hubLabel: "Luxury Drop Shoulder",
+                name: "Retro Cyberpunk Hackers Tee",
+                price: 1599,
+                desc: "Glitch texture neon graphic print. Extreme drop shoulder style tailored for ultimate street fit.",
+                img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&auto=format&fit=crop&q=80"
+            },
+            {
+                id: 8,
+                hubLabel: "Baggy Parachute Cargo",
+                name: "Desert Ghost Parachute Cargo",
+                price: 2399,
+                desc: "Ultra baggy streetwear silhouette. Multi-strap utility aesthetic with light featherweight premium nylon build.",
+                img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&auto=format&fit=crop&q=80"
+            },
+            {
+                id: 9,
+                hubLabel: "Oversized Streetwear",
+                name: "Phantom Eclipse Heavy Knit Tee",
+                price: 1450,
+                desc: "Minimalist structural font graphic. Raw edge detailing with premium breathable premium luxury cotton knit.",
+                img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=80"
+            },
+            {
+                id: 10,
+                hubLabel: "Premium Anime Hoodies",
+                name: "Zenith Mecha Cyber Suit Hoodie",
+                price: 2999,
+                desc: "Sci-fi futuristic panel line geometric graphics. Double layered hood structure with dense warm internal insulation.",
+                img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&auto=format&fit=crop&q=80"
+            },
+            {
+                id: 11,
+                hubLabel: "Luxury Drop Shoulder",
+                name: "Tokyo Underworld Varsity Jacket",
+                price: 3499,
+                desc: "Authentic heavy felt wool structure with custom vegan leather sleeves and high definition patches.",
+                img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop&q=80"
+            },
+            {
+                id: 12,
+                hubLabel: "Baggy Parachute Cargo",
+                name: "Obsidian Techwear Cargo Track",
+                price: 1999,
+                desc: "Matte-black dynamic techwear silhouette. Quick-snap elastic waistband with extreme pocket configurations.",
+                img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80"
             }
         ];
 
         let catalogData = [];
         let cartCount = 0;
 
-        // Dom Elements
         const mainCatalogGrid = document.getElementById('main-catalog-grid-display');
         const menuTriggerBtn = document.getElementById('menu-trigger-btn');
         const leftSidebar = document.getElementById('left-sidebar-navigation-panel');
@@ -569,19 +606,13 @@
         const closePavanAdminBtn = document.getElementById('close-pavan-admin-btn');
         const cartCounterBadge = document.getElementById('cart-counter-badge');
 
-        // Initialize App Database
+        // Always overwrite old stored session cache to cleanly load all 12 products
         function initDatabase() {
-            const savedData = localStorage.getItem('pavan_custom_catalog');
-            if (savedData) {
-                catalogData = JSON.parse(savedData);
-            } else {
-                catalogData = [...DEFAULT_CATALOG];
-                localStorage.setItem('pavan_custom_catalog', JSON.stringify(catalogData));
-            }
+            catalogData = [...DEFAULT_CATALOG];
+            localStorage.setItem('pavan_custom_catalog', JSON.stringify(catalogData));
             renderCatalog();
         }
 
-        // Render Cards to Grid UI
         function renderCatalog() {
             mainCatalogGrid.innerHTML = '';
             catalogData.forEach(prod => {
@@ -590,11 +621,11 @@
                 card.innerHTML = `
                     <span class="hub-tag">${prod.hubLabel}</span>
                     <div class="product-img-wrapper">
-                        <img src="${prod.img}" alt="${prod.name}" onerror="this.src='https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=500'">
+                        <img src="${prod.img}" alt="${prod.name}" onerror="this.src='https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=800'">
                     </div>
                     <div class="product-info">
                         <h4 class="product-title">${prod.name}</h4>
-                        <p class="product-desc">${prod.desc || 'No system description provided for this premium streetwear product.'}</p>
+                        <p class="product-desc">${prod.desc || 'Premium heavyweight luxury streetwear product curated by Pavan Clothing.'}</p>
                         <div class="product-meta">
                             <span class="product-price">₹${prod.price}</span>
                             <button class="add-to-cart-btn" onclick="addToCartTrigger()">ADD TO CART</button>
@@ -605,7 +636,6 @@
             });
         }
 
-        // Add To Cart Dummy Logic
         function addToCartTrigger() {
             cartCount++;
             cartCounterBadge.textContent = cartCount;
@@ -622,7 +652,7 @@
         });
 
         triggerPavanPanelBtn.addEventListener('click', () => {
-            leftSidebar.classList.remove('active'); // Close left menu first
+            leftSidebar.classList.remove('active');
             const accessKey = prompt("ENTER PAVAN PANEL ENCRYPTION ACCESS KEY:");
             if (accessKey === 'pavan') {
                 pavanAdminPanel.classList.add('active');
@@ -650,7 +680,7 @@
                 return;
             }
 
-            let finalImg = "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=500"; // fallback
+            let finalImg = "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=800";
 
             const completeInjection = () => {
                 const newProduct = {
@@ -662,11 +692,10 @@
                     img: finalImg
                 };
 
-                catalogData.unshift(newProduct); // Add dynamic item to top of list
+                catalogData.unshift(newProduct);
                 localStorage.setItem('pavan_custom_catalog', JSON.stringify(catalogData));
                 renderCatalog();
                 
-                // Clear Fields
                 document.getElementById('inj-name').value = '';
                 document.getElementById('inj-price').value = '';
                 document.getElementById('inj-desc').value = '';
@@ -677,7 +706,6 @@
                 alert("SUCCESS: New custom product injected into primary catalog array!");
             };
 
-            // Process image file or text URL
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -691,7 +719,6 @@
             }
         });
 
-        // Run on Startup
         window.addEventListener('DOMContentLoaded', initDatabase);
     </script>
 </body>
