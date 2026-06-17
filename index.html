@@ -15,10 +15,6 @@
         body { 
             font-family: 'Space Grotesk', sans-serif; 
             background-color: #020617; 
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
             overflow-x: hidden; 
             transition: background-image 0.3s ease-in-out, background-color 0.3s ease-in-out;
         }
@@ -36,15 +32,43 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            pointer-events: auto;
+            pointer-events: none;
             z-index: 10;
         }
-        .dom-content-matrix { position: relative; z-index: 20; pointer-events: none; }
-        .click-node { pointer-events: auto; }
+        .dom-content-matrix { position: relative; z-index: 20; }
         
         /* Smooth Scale Micro-Interactions */
         .interactive-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; }
         .interactive-card:hover { transform: translateY(-4px); border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.1); }
+
+        /* FIXED SIDEBAR STRUCTURE - FULL VISIBILITY GUARANTEE */
+        #left-sidebar-navigation-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 288px; /* w-72 */
+            background-color: #020617;
+            border-right: 1px solid #0f172a;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 99999 !important;
+            display: flex;
+            flex-direction: column;
+        }
+        #left-sidebar-navigation-panel.sidebar-open {
+            transform: translateX(0) !important;
+        }
+        #sidebar-dim-mask-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 99998 !important;
+            display: none;
+        }
+        #sidebar-dim-mask-overlay.overlay-open {
+            display: block !important;
+        }
     </style>
 </head>
 <body id="master-body-node" class="text-slate-100 min-h-screen flex flex-col selection:bg-emerald-400 selection:text-slate-950 relative">
@@ -55,63 +79,87 @@
     <!-- CORE DECORATIVE VECTOR GRADIENT BACKDROP -->
     <div id="global-gradient-overlay" class="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.04),transparent_70%)] pointer-events-none z-0"></div>
 
-    <!-- PRODUCTION HEADER & ULTRA NAV PIPELINE -->
-    <header class="bg-slate-950/80 backdrop-blur-2xl border-b border-slate-900 sticky top-0 z-50 px-4 lg:px-8 py-4 flex flex-col xl:flex-row justify-between items-center gap-4 dom-content-matrix">
-        <div class="flex items-center justify-between w-full xl:w-auto gap-4 click-node">
-            <!-- BACK NAVIGATION BUTTON BLOCK -->
+    <!-- LEFT SIDEBAR PANEL -->
+    <div id="left-sidebar-navigation-panel" class="p-6 shadow-2xl">
+        <div class="flex flex-col h-full justify-between">
+            <div class="space-y-6">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-900">
+                    <span class="logo-text text-[11px] font-black tracking-widest text-emerald-400">MATRIX MENU</span>
+                    <button onclick="toggleGlobalLeftSidebar(false)" class="text-slate-400 hover:text-rose-400 transition cursor-pointer p-2 text-sm">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- NAVIGATION LINKS - NO BLUR, HIGH CONTRAST -->
+                <nav id="sidebar-nav-links-stack" class="flex flex-col gap-1 font-bold tracking-wider uppercase text-[11px]">
+                    <button id="btn-nav-home-node" onclick="navigateToRoute('home-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-emerald-400 bg-slate-900 border border-slate-800 cursor-pointer transition">Home</button>
+                    <button id="btn-nav-shop-node" onclick="navigateToRoute('shop-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">Shop</button>
+                    <button id="btn-nav-categories-node" onclick="navigateToRoute('categories-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">Categories</button>
+                    <button id="btn-nav-bestsellers-node" onclick="navigateToRoute('bestsellers-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">BestSellers</button>
+                    <button id="btn-nav-newdrops-node" onclick="navigateToRoute('newdrops-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">NewDrops</button>
+                    <button id="btn-nav-vault-node" onclick="navigateToRoute('vault-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">TheVault</button>
+                    <button id="btn-nav-radar-node" onclick="navigateToRoute('radar-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">Radar</button>
+                    <button id="btn-nav-community-node" onclick="navigateToRoute('community-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">Community</button>
+                    <button id="btn-nav-track-node" onclick="navigateToRoute('track-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">Track Order</button>
+                    <button id="btn-nav-support-node" onclick="navigateToRoute('support-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">Support</button>
+                    <button id="btn-nav-faq-node" onclick="navigateToRoute('faq-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">FAQ</button>
+                    <button id="btn-nav-sizes-node" onclick="navigateToRoute('sizes-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">Sizes</button>
+                    <button id="btn-nav-about-node" onclick="navigateToRoute('about-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition">About</button>
+                    <button id="btn-nav-auth-node" onclick="navigateToRoute('auth-node'); toggleGlobalLeftSidebar(false);" class="w-full text-left px-4 py-2.5 rounded-xl text-amber-400 hover:text-amber-300 hover:bg-slate-900/60 cursor-pointer transition"><i class="fas fa-fingerprint"></i> Access Node</button>
+                </nav>
+            </div>
+            
+            <div class="pt-4 border-t border-slate-900">
+                <button onclick="invokeAdminGate(); toggleGlobalLeftSidebar(false);" class="w-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-1.5 transition cursor-pointer">
+                    <i class="fas fa-lock-open"></i> Pavan Panel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR MASK OVERLAY -->
+    <div id="sidebar-dim-mask-overlay" onclick="toggleGlobalLeftSidebar(false)"></div>
+
+    <!-- MAIN HEADER -->
+    <header class="bg-slate-950/80 backdrop-blur-md border-b border-slate-900 sticky top-0 z-50 px-4 lg:px-8 py-4 flex justify-between items-center dom-content-matrix">
+        <div class="flex items-center gap-4">
+            <!-- HAMBURGER BUTTON -->
+            <button onclick="toggleGlobalLeftSidebar(true)" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 hover:text-emerald-400 p-2.5 h-10 w-10 rounded-xl transition flex items-center justify-center cursor-pointer text-sm" title="Open Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
             <button onclick="executeRouteBackwardsTransition()" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer">
                 <i class="fas fa-chevron-left"></i> Back
             </button>
-            <h1 onclick="navigateToRoute('home-node')" class="logo-text text-xl font-black tracking-widest cursor-pointer bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent hover:opacity-80 transition">
+            
+            <h1 onclick="navigateToRoute('home-node')" class="logo-text text-lg md:text-xl font-black tracking-widest cursor-pointer bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent hover:opacity-80 transition">
                 THE PRO VIBE
             </h1>
-            <button onclick="invokeAdminGate()" class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition cursor-pointer">
-                <i class="fas fa-lock-open"></i> Pavan Panel
-            </button>
         </div>
-
-        <!-- ECOSYSTEM ROUTING BUS -->
-        <nav class="flex flex-wrap justify-center items-center gap-1.5 bg-slate-900/60 p-1.5 rounded-2xl border border-slate-800/80 text-[11px] font-bold tracking-wider uppercase click-node max-w-full">
-            <button id="btn-nav-home-node" onclick="navigateToRoute('home-node')" class="px-3 py-1.5 rounded-xl transition text-emerald-400 bg-slate-950 border border-slate-800 cursor-pointer">Home</button>
-            <button id="btn-nav-shop-node" onclick="navigateToRoute('shop-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Shop</button>
-            <button id="btn-nav-categories-node" onclick="navigateToRoute('categories-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Categories</button>
-            <button id="btn-nav-bestsellers-node" onclick="navigateToRoute('bestsellers-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">BestSellers</button>
-            <button id="btn-nav-newdrops-node" onclick="navigateToRoute('newdrops-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">NewDrops</button>
-            <button id="btn-nav-vault-node" onclick="navigateToRoute('vault-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">TheVault</button>
-            <button id="btn-nav-radar-node" onclick="navigateToRoute('radar-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Radar</button>
-            <button id="btn-nav-community-node" onclick="navigateToRoute('community-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Community</button>
-            <button id="btn-nav-track-node" onclick="navigateToRoute('track-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Track Order</button>
-            <button id="btn-nav-support-node" onclick="navigateToRoute('support-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Support</button>
-            <button id="btn-nav-faq-node" onclick="navigateToRoute('faq-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">FAQ</button>
-            <button id="btn-nav-sizes-node" onclick="navigateToRoute('sizes-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Sizes</button>
-            <button id="btn-nav-about-node" onclick="navigateToRoute('about-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">About</button>
-            <button id="btn-nav-auth-node" onclick="navigateToRoute('auth-node')" class="px-3 py-1.5 rounded-xl transition text-amber-400 hover:text-amber-300 cursor-pointer"><i class="fas fa-fingerprint"></i> Access Node</button>
-        </nav>
         
-        <!-- COMMERCE CART TRIGGER ACTION -->
-        <div onclick="navigateToRoute('cart-node')" class="cursor-pointer bg-slate-900 hover:bg-slate-800 px-4 py-2 border border-slate-800 hover:border-emerald-500/30 rounded-xl transition flex items-center gap-3 click-node">
+        <div onclick="navigateToRoute('cart-node')" class="cursor-pointer bg-slate-900 hover:bg-slate-800 px-4 py-2 border border-slate-800 hover:border-emerald-500/30 rounded-xl transition flex items-center gap-3">
             <i class="fas fa-shopping-bag text-emerald-400"></i>
             <span id="global-cart-counter" class="bg-rose-500 text-white text-[10px] px-1.5 py-0.5 rounded-md font-black shadow-lg shadow-rose-500/20">0</span>
         </div>
     </header>
 
-    <!-- INTERCONNECTED COMPREHENSIVE PAGES ROUTING MATRIX -->
+    <!-- MAIN CONTENT INJECTION ENGINE -->
     <main class="flex-grow dom-content-matrix z-20 relative w-full">
 
-        <!-- 1. HOME LANDING NODE -->
+        <!-- 1. HOME NODE -->
         <div id="home-node" class="spa-route active-route max-w-4xl mx-auto px-6 py-16 text-center space-y-12">
             <div class="space-y-6">
-                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-block click-node animate-pulse">SYSTEM ROOT NODE OPERATIONAL</span>
+                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-block animate-pulse">SYSTEM ROOT NODE OPERATIONAL</span>
                 <h2 class="text-5xl md:text-8xl font-black tracking-tighter leading-none text-white">THE NEXT GEN <br><span class="bg-gradient-to-r from-amber-400 via-orange-500 to-emerald-400 bg-clip-text text-transparent">ANIME DRIP</span></h2>
                 <p class="text-slate-400 text-xs md:text-sm max-w-xl mx-auto leading-relaxed">High-end apparel matrix synchronized with fullscreen WebGL physics modules.</p>
-                <div class="flex justify-center gap-4 pt-2 click-node">
-                    <button onclick="navigateToRoute('shop-node')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-8 py-4 rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-emerald-500/20 transition duration-300 scale-100 hover:scale-[1.03] cursor-pointer">Browse Full Catalog</button>
+                <div class="flex justify-center gap-4 pt-2">
+                    <button onclick="navigateToRoute('shop-node')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-8 py-4 rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-emerald-500/20 transition duration-300 scale-100 hover:scale-[1.03] cursor-pointer">Browse Catalog</button>
                     <button onclick="navigateToRoute('auth-node')" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-black px-6 py-4 rounded-xl text-xs uppercase tracking-widest transition duration-300 cursor-pointer">Secure Access Node</button>
                 </div>
             </div>
 
             <!-- SINGLE STRATEGIC HIGHLIGHT PRODUCT -->
-            <div class="bg-slate-950/60 border border-slate-900 rounded-3xl p-6 text-left max-w-md mx-auto space-y-4 click-node mt-6 transition hover:border-emerald-500/20" onclick="triggerProductDetailsPipeline(5)">
+            <div class="bg-slate-950/60 border border-slate-900 rounded-3xl p-6 text-left max-w-md mx-auto space-y-4 mt-6 transition hover:border-emerald-500/20 cursor-pointer" onclick="triggerProductDetailsPipeline(5)">
                 <span class="text-[9px] bg-purple-500/10 border border-purple-500/20 text-purple-400 px-2.5 py-1 rounded-md font-black uppercase tracking-widest">Featured Blueprint (Click to View)</span>
                 <div class="flex gap-4 items-center">
                     <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80" class="w-24 h-24 object-cover rounded-xl border border-slate-800">
@@ -126,7 +174,7 @@
 
         <!-- PRODUCT DETAILS NODE -->
         <div id="product-details-node" class="spa-route max-w-5xl mx-auto px-6 py-12 space-y-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-950/60 border border-slate-900 p-6 md:p-10 rounded-3xl click-node">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-950/60 border border-slate-900 p-6 md:p-10 rounded-3xl">
                 <div class="w-full flex items-center justify-center bg-slate-950 p-2 rounded-2xl border border-slate-900">
                     <img id="detail-pane-image" src="" class="w-full max-h-[420px] object-cover rounded-xl">
                 </div>
@@ -145,48 +193,44 @@
 
         <!-- CENTRAL SHOP CATALOG -->
         <div id="shop-node" class="spa-route max-w-7xl mx-auto px-6 py-12 space-y-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-900 pb-6 click-node">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-900 pb-6">
                 <div>
                     <h3 class="text-xl font-black uppercase tracking-wider text-white">Ecosystem Inventory Stream</h3>
                     <p class="text-xs text-slate-500 mt-1">Real-time keyword analysis filter active</p>
                 </div>
                 <input type="text" oninput="executeClientSideSearch(this.value)" placeholder="Search dynamic apparel blueprints..." class="bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-2.5 text-xs w-full md:max-w-xs outline-none text-white transition">
             </div>
-            <div id="shop-shelves-injection-point" class="space-y-12 click-node"></div>
+            <div id="shop-shelves-injection-point" class="space-y-12"></div>
         </div>
 
         <!-- AUTH NODE -->
         <div id="auth-node" class="spa-route max-w-sm mx-auto px-6 py-14">
-            <div class="bg-slate-900/90 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl click-node relative overflow-hidden">
+            <div class="bg-slate-900/90 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
                 <div class="flex border-b border-slate-800 text-center text-xs font-black uppercase tracking-wider">
                     <button id="tab-toggle-login" onclick="switchAuthInterfaceMode('login')" class="w-1/2 pb-3 text-emerald-400 border-b-2 border-emerald-500 cursor-pointer">Login</button>
                     <button id="tab-toggle-register" onclick="switchAuthInterfaceMode('register')" class="w-1/2 pb-3 text-slate-500 border-b-2 border-transparent cursor-pointer hover:text-slate-300">Register</button>
                 </div>
-                <form onsubmit="executeUserHandshake(event, 'login')" class="space-y-4">
-                    <input type="email" id="login-email" placeholder="name@domain.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white">
-                    <input type="password" id="login-password" placeholder="••••••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white">
-                    <button type="submit" class="w-full bg-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase cursor-pointer">Verify Access Keys</button>
-                </form>
+                <form id="auth-dynamic-form-element" onsubmit="executeUserHandshake(event)" class="space-y-4"></form>
             </div>
         </div>
 
         <!-- CATEGORIES DIRECTORY -->
         <div id="categories-node" class="spa-route max-w-5xl mx-auto px-6 py-12 space-y-8 text-center">
             <h3 class="text-2xl font-black uppercase tracking-widest text-white">Structural Categories Node Map</h3>
-            <div id="categories-grid-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4 click-node"></div>
+            <div id="categories-grid-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
         </div>
 
         <!-- BEST SELLERS -->
         <div id="bestsellers-node" class="spa-route max-w-5xl mx-auto px-6 py-12 space-y-6">
             <h3 class="text-2xl font-black text-amber-400 uppercase tracking-widest text-center">High-Velocity Top Drops</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 click-node" id="bestsellers-lane"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="bestsellers-lane"></div>
         </div>
 
         <!-- NEW DROPS -->
         <div id="newdrops-node" class="spa-route max-w-5xl mx-auto px-6 py-12 space-y-6">
             <h3 class="text-2xl font-black text-purple-400 uppercase tracking-widest text-center">Fresh Batch Releases</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 click-node" id="newdrops-lane"></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="newdrops-lane"></div>
         </div>
 
         <!-- EXCLUSIVE VAULT -->
@@ -200,7 +244,7 @@
 
         <!-- BASKET (CART) -->
         <div id="cart-node" class="spa-route max-w-xl mx-auto px-6 py-12">
-            <div class="bg-slate-950/90 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-2xl click-node">
+            <div class="bg-slate-950/90 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-2xl">
                 <h4 class="text-xs font-black uppercase text-slate-400 tracking-wider flex items-center gap-2"><i class="fas fa-terminal text-emerald-400"></i> Active Checkout Basket Matrix</h4>
                 <div id="cart-node-viewport" class="space-y-2"></div>
                 <div class="pt-4 border-t border-slate-900 flex justify-between items-center">
@@ -213,25 +257,21 @@
 
         <!-- LOGISTICS TRACKER -->
         <div id="track-node" class="spa-route max-w-xl mx-auto px-6 py-12 space-y-6">
-            <div class="bg-slate-900/90 border border-slate-800 p-8 rounded-3xl space-y-4 text-center shadow-2xl click-node">
-                <input type="text" id="tracking-token-input" placeholder="e.g., TXN-NPCI-582941" class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-3 text-xs text-white text-center">
+            <div class="bg-slate-900/90 border border-slate-800 p-8 rounded-3xl space-y-4 text-center shadow-2xl">
+                <input type="text" id="tracking-token-input" placeholder="e.g., TXN-NPCI-582941" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white text-center">
                 <button onclick="executeLiveOrderTrackingPipeline()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase px-6 py-3 rounded-xl transition cursor-pointer">Track Order</button>
             </div>
-            <div id="tracking-result-window" class="hidden bg-slate-950/90 border border-slate-800 p-6 rounded-3xl space-y-6 click-node"></div>
+            <div id="tracking-result-window" class="hidden bg-slate-950/90 border border-slate-800 p-6 rounded-3xl space-y-6"></div>
         </div>
 
-        <!-- ============================================================= -->
-        <!--  UPDATED HIGH-FIDELITY LAYOUTS & RE-ENGINEERED STATIC PAGES  -->
-        <!-- ============================================================= -->
-        
-        <!-- 1. RADAR NODE (TRENDING INSIGHTS) -->
+        <!-- RADAR NODE -->
         <div id="radar-node" class="spa-route max-w-4xl mx-auto px-6 py-12 space-y-8">
-            <div class="text-center space-y-2 click-node">
+            <div class="text-center space-y-2">
                 <span class="bg-teal-500/10 border border-teal-500/30 text-teal-400 px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-widest">Global Fashion Analysis Radar</span>
                 <h3 class="text-3xl font-black text-white uppercase tracking-tight">Style Radar Feed</h3>
                 <p class="text-xs text-slate-400 font-mono max-w-md mx-auto">Real-time design trends, metadata heatmaps, and demand forecast loops.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 click-node">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-slate-950/80 border border-slate-900 p-5 rounded-2xl space-y-3">
                     <div class="flex justify-between items-center"><span class="text-xs font-black uppercase text-slate-300">Trending Frameworks</span><span class="text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">98% Velocity</span></div>
                     <div class="space-y-2 font-mono text-xs text-slate-400">
@@ -250,13 +290,13 @@
             </div>
         </div>
 
-        <!-- 2. COMMUNITY (SYNDICATE NODE NETWORK) -->
+        <!-- COMMUNITY -->
         <div id="community-node" class="spa-route max-w-4xl mx-auto px-6 py-12 space-y-8">
-            <div class="text-center space-y-2 click-node">
+            <div class="text-center space-y-2">
                 <h3 class="text-3xl font-black text-white uppercase tracking-tight">SYNDICATE HUB</h3>
                 <p class="text-xs text-slate-400 max-w-md mx-auto font-mono">Connect with streetwear nodes, share setups, and unlock drop protocols.</p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 click-node">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-6 rounded-2xl text-center space-y-3">
                     <i class="fab fa-discord text-indigo-400 text-2xl"></i>
                     <h5 class="text-sm font-black uppercase text-white">Discord Guild</h5>
@@ -278,9 +318,9 @@
             </div>
         </div>
 
-        <!-- 3. SUPPORT (INCIDENT FILING UNIT) -->
+        <!-- SUPPORT -->
         <div id="support-node" class="spa-route max-w-xl mx-auto px-6 py-12">
-            <div class="bg-slate-950/80 border border-slate-900 p-6 rounded-3xl space-y-6 click-node">
+            <div class="bg-slate-950/80 border border-slate-900 p-6 rounded-3xl space-y-6">
                 <div class="space-y-1">
                     <h4 class="text-lg font-black uppercase text-white"><i class="fas fa-headset text-emerald-400 mr-2"></i> Support Dispatch Center</h4>
                     <p class="text-xs text-slate-500 font-mono">File incident report protocols, shipping bugs, or refund handshakes.</p>
@@ -288,67 +328,50 @@
                 <div class="space-y-4 text-xs font-mono">
                     <div class="space-y-1"><label class="text-[10px] font-black text-slate-400 uppercase tracking-wide">Select Issue Vector</label><select class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-white outline-none"><option>Logistics Delay Request</option><option>Payment Verification Bug</option><option>Custom Artwork Misalignment</option></select></div>
                     <div class="space-y-1"><label class="text-[10px] font-black text-slate-400 uppercase tracking-wide">Elaborate Incident Log</label><textarea rows="3" placeholder="Provide system details, order hash, and descriptive information..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none focus:border-emerald-500"></textarea></div>
-                    <button onclick="alert('Support ticket transmitted successfully to active matrix logs.')" class="w-full bg-emerald-500 text-slate-950 font-black py-3 rounded-xl uppercase tracking-wider text-[11px]">Transmit Ticket Package</button>
+                    <button onclick="alert('Support ticket transmitted successfully to active matrix logs.')" class="w-full bg-emerald-500 text-slate-950 font-black py-3 rounded-xl uppercase tracking-wider text-[11px] cursor-pointer">Transmit Ticket Package</button>
                 </div>
             </div>
         </div>
 
-        <!-- 4. FAQ COMPILATION LAYER -->
+        <!-- FAQ -->
         <div id="faq-node" class="spa-route max-w-2xl mx-auto px-6 py-12 space-y-6">
             <h3 class="text-2xl font-black text-center uppercase tracking-widest text-white">Ecosystem Core FAQ</h3>
-            <div class="space-y-3 click-node font-mono text-xs">
-                <div class="bg-slate-950/80 border border-slate-900 p-4 rounded-xl space-y-1"><h5 class="font-black text-emerald-400 uppercase">Q: What is the average logistics delivery window?</h5><p class="text-slate-400 text-[11px]">A: Processing takes 24-48 system clock cycles. Domestic delivery finishes inside 3-5 operational transit days.</p>
-                </div>
-                <div class="bg-slate-950/80 border border-slate-900 p-4 rounded-xl space-y-1"><h5 class="font-black text-emerald-400 uppercase">Q: How do I manage wash care protocols?</h5><p class="text-slate-400 text-[11px]">A: Turn apparel inside out before washing. Avoid high heat or direct iron processing over active custom artwork graphics.</p>
-                </div>
-                <div class="bg-slate-950/80 border border-slate-900 p-4 rounded-xl space-y-1"><h5 class="font-black text-emerald-400 uppercase">Q: Can I request customized background image links permanently?</h5><p class="text-slate-400 text-[11px]">A: Yes! Use the Pavan Admin Panel console block to overwrite system background memory layers via standard URL caching vectors.</p>
-                </div>
+            <div class="space-y-3 font-mono text-xs">
+                <div class="bg-slate-950/80 border border-slate-900 p-4 rounded-xl space-y-1"><h5 class="font-black text-emerald-400 uppercase">Q: What is the average logistics delivery window?</h5><p class="text-slate-400 text-[11px]">A: Processing takes 24-48 system clock cycles. Domestic delivery finishes inside 3-5 operational transit days.</p></div>
+                <div class="bg-slate-950/80 border border-slate-900 p-4 rounded-xl space-y-1"><h5 class="font-black text-emerald-400 uppercase">Q: How do I manage wash care protocols?</h5><p class="text-slate-400 text-[11px]">A: Turn apparel inside out before washing. Avoid high heat or direct iron processing over active custom artwork graphics.</p></div>
             </div>
         </div>
 
-        <!-- 5. STREETWEAR METRIC SPECIFICATIONS (SIZES) -->
+        <!-- SIZES -->
         <div id="sizes-node" class="spa-route max-w-2xl mx-auto px-6 py-12 space-y-6">
-            <div class="text-center space-y-1 click-node">
+            <div class="text-center space-y-1">
                 <h3 class="text-2xl font-black uppercase text-white">Size Blueprint Matrix</h3>
                 <p class="text-xs text-slate-400 font-mono">Accurate streetwear oversized drop proportions measured in inches.</p>
             </div>
-            <div class="bg-slate-950/90 border border-slate-900 rounded-2xl overflow-hidden font-mono text-xs click-node">
+            <div class="bg-slate-950/90 border border-slate-900 rounded-2xl overflow-hidden font-mono text-xs">
                 <table class="w-full text-left border-collapse">
                     <thead><tr class="bg-slate-900 text-slate-400 uppercase text-[10px] font-black border-b border-slate-800"><th class="p-4">Size Tag</th><th class="p-4">Chest Width</th><th class="p-4">Apparel Length</th><th class="p-4">Sleeve Drop</th></tr></thead>
                     <tbody class="text-slate-300 divide-y divide-slate-900">
                         <tr class="hover:bg-slate-900/40"><td class="p-4 font-black text-emerald-400">S (Small)</td><td class="p-4">44"</td><td class="p-4">27.5"</td><td class="p-4">8.5"</td></tr>
                         <tr class="hover:bg-slate-900/40"><td class="p-4 font-black text-emerald-400">M (Medium)</td><td class="p-4">46"</td><td class="p-4">28.5"</td><td class="p-4">9.0"</td></tr>
                         <tr class="hover:bg-slate-900/40"><td class="p-4 font-black text-emerald-400">L (Large)</td><td class="p-4">48"</td><td class="p-4">29.5"</td><td class="p-4">9.5"</td></tr>
-                        <tr class="hover:bg-slate-900/40"><td class="p-4 font-black text-emerald-400">XL (Extra Large)</td><td class="p-4">50"</td><td class="p-4">30.5"</td><td class="p-4">10.0"</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 6. THE PRO VIBE ETHOS PROTOCOLS (ABOUT) -->
+        <!-- ABOUT -->
         <div id="about-node" class="spa-route max-w-3xl mx-auto px-6 py-12 space-y-8">
-            <div class="text-center space-y-3 click-node">
+            <div class="text-center space-y-3">
                 <span class="text-[9px] bg-purple-500/10 border border-purple-500/20 text-purple-400 px-3 py-1 rounded-md font-black uppercase tracking-widest">Brand Blueprint Chronicles</span>
                 <h3 class="text-4xl font-black tracking-tight text-white uppercase">The Pro Vibe Culture</h3>
                 <p class="text-xs text-slate-400 font-mono max-w-lg mx-auto leading-relaxed">We merge luxury otaku sub-cultural blueprints with digital interface infrastructure layers.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 click-node font-mono text-xs text-slate-400 leading-relaxed">
-                <div class="bg-slate-950/60 border border-slate-900 p-5 rounded-2xl space-y-2">
-                    <h5 class="font-black text-white uppercase text-sm flex items-center gap-2"><i class="fas fa-fingerprint text-emerald-400"></i> Quality Vectors</h5>
-                    <p class="text-[11px]">All garments are tailored using premium combed cotton formats. Custom screen modifications utilize heavy density plastisol ink sets built to survive extended timeline stresses cleanly.</p>
-                </div>
-                <div class="bg-slate-950/60 border border-slate-900 p-5 rounded-2xl space-y-2">
-                    <h5 class="font-black text-white uppercase text-sm flex items-center gap-2"><i class="fas fa-network-wired text-emerald-400"></i> Cyber Ecosystem</h5>
-                    <p class="text-[11px]">This application runs on high-speed SPA rendering logic arrays. Controls are monitored via local system configurations, allowing live admin operations instantly through Pavan Module controls.</p>
-                </div>
-            </div>
         </div>
 
-        <!-- ========================================== -->
-        <!--  GATEWAY CONTROL PANEL: THE PAVAN CONSOLE  -->
-        <!-- ========================================== -->
+        <!-- PAVAN CONSOLE -->
         <div id="admin-panel-node" class="spa-route max-w-2xl mx-auto px-6 py-12">
-            <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-6 space-y-6 shadow-2xl click-node">
+            <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-6 space-y-6 shadow-2xl">
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                     <h3 class="text-xl font-black text-amber-400 uppercase tracking-widest"><i class="fas fa-terminal"></i> PAVAN CONTROL CONSOLE</h3>
                     <button onclick="factoryResetEcosystemMemory()" class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase cursor-pointer">Reset Matrix Data</button>
@@ -357,76 +380,80 @@
                 <!-- LIVE BACKGROUND CUSTOMIZER -->
                 <div class="bg-slate-950 border border-blue-500/30 p-5 rounded-2xl space-y-4">
                     <h4 class="text-xs font-black text-blue-400 uppercase tracking-wider"><i class="fas fa-palette mr-2"></i> Live Background Canvas Customizer</h4>
-                    
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black tracking-wider uppercase text-slate-400 block">Select Color Wheel Picker</label>
                             <input type="color" id="admin-solid-color-picker" value="#020617" oninput="applyCustomSystemBackground('color', this.value)" class="w-12 h-10 bg-slate-900 border border-slate-800 rounded-xl cursor-pointer">
                         </div>
-
                         <div class="space-y-2">
                             <label class="text-[10px] font-black tracking-wider uppercase text-slate-400 block">Preset System Gradients</label>
                             <div class="flex flex-wrap gap-2">
-                                <button onclick="applyCustomSystemBackground('gradient', 'linear-gradient(135deg, #0f172a, #020617)')" class="w-7 h-7 rounded-lg bg-gradient-to-br from-slate-800 to-slate-950 border border-slate-700"></button>
-                                <button onclick="applyCustomSystemBackground('gradient', 'linear-gradient(135deg, #1e1b4b, #020617)')" class="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-950 to-slate-950 border border-slate-700"></button>
-                                <button onclick="applyCustomSystemBackground('gradient', 'linear-gradient(135deg, #064e3b, #020617)')" class="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-950 to-slate-950 border border-slate-700"></button>
+                                <button onclick="applyCustomSystemBackground('gradient', 'linear-gradient(135deg, #0f172a, #020617)')" class="w-7 h-7 rounded-lg bg-gradient-to-br from-slate-800 to-slate-950 border border-slate-700 cursor-pointer"></button>
+                                <button onclick="applyCustomSystemBackground('gradient', 'linear-gradient(135deg, #1e1b4b, #020617)')" class="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-950 to-slate-950 border border-slate-700 cursor-pointer"></button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- RE-ENGINEERED WEB SAFE DUAL INPUT CONSOLE FOR IMAGE LINKS -->
                     <div class="space-y-2 pt-2 border-t border-slate-900">
-                        <label class="text-[10px] font-black tracking-wider uppercase text-amber-400 block">
-                            <i class="fas fa-link"></i> Inject Custom Color Name, Hex Code OR Image Link (URL)
-                        </label>
-                        <div class="flex gap-2">
-                            <input type="text" id="admin-universal-bg-input" placeholder="Paste link here (e.g., https://images.unsplash.com/photo-...)" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-emerald-400 font-mono">
-                            <button onclick="processUniversalBackgroundInput()" class="bg-emerald-500 text-slate-950 font-black text-xs px-4 py-2 rounded-xl uppercase whitespace-nowrap hover:bg-emerald-400 transition">Apply Asset</button>
-                        </div>
-                        <p class="text-[9px] text-slate-500 font-mono">Note: Use reliable direct CDNs (like Unsplash, Imgur) to bypass core layout blockades safely.</p>
+                        <input type="text" id="admin-universal-bg-input" placeholder="Paste link here..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-emerald-400 font-mono">
+                        <button onclick="processUniversalBackgroundInput()" class="bg-emerald-500 text-slate-950 font-black text-xs px-4 py-2 rounded-xl uppercase hover:bg-emerald-400 transition cursor-pointer">Apply Asset</button>
                     </div>
                 </div>
 
-                <!-- ADD MANUALLY FROM LOCAL PC -->
+                <!-- ADD PRODUCT -->
                 <div class="bg-slate-950 border border-emerald-500/30 p-5 rounded-2xl space-y-3">
-                    <h4 class="text-xs font-black text-emerald-400 uppercase"><i class="fas fa-plus-circle"></i> Inject Custom Product From PC</h4>
+                    <h4 class="text-xs font-black text-emerald-400 uppercase"><i class="fas fa-plus-circle"></i> Inject Custom Product</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <input type="text" id="prod-name" placeholder="Product Name" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white">
-                        <input type="number" id="prod-price" placeholder="Price in ₹" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white">
-                        <select id="prod-category" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white"></select>
+                        <input type="text" id="prod-name" placeholder="Product Name" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none">
+                        <input type="number" id="prod-price" placeholder="Price in ₹" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none">
+                        <select id="prod-category" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none"></select>
                         <input type="file" id="prod-file-image" accept="image/*" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1 text-slate-400 file:bg-emerald-500 file:text-slate-950 cursor-pointer">
-                        <input type="text" id="prod-desc" placeholder="Specifications..." class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white sm:col-span-2">
+                        <input type="text" id="prod-desc" placeholder="Specifications..." class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white sm:col-span-2 outline-none">
                     </div>
-                    <button onclick="processAndInjectLocalProduct()" class="w-full bg-emerald-500 text-slate-950 font-black text-xs uppercase py-2.5 rounded-xl cursor-pointer">Upload & Inject To Active Shop</button>
+                    <button onclick="processAndInjectLocalProduct()" class="w-full bg-emerald-500 text-slate-950 font-black text-xs uppercase py-2.5 rounded-xl cursor-pointer">Upload & Inject</button>
                 </div>
             </div>
         </div>
-
     </main>
 
-    <!-- UPI MODAL OVERLAY -->
-    <div id="upi-modal-overlay" class="fixed inset-0 bg-slate-950/95 z-[250] hidden flex items-center justify-center p-4 backdrop-blur-3xl">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-sm p-6 space-y-4">
-            <h4 class="text-xs font-black text-slate-400 text-center uppercase">NPCI Secure UPI Payment Node</h4>
-            <div class="text-center py-2"><h2 id="upi-modal-payable-amount" class="text-3xl font-black text-white">₹0</h2></div>
-            <button onclick="executeSecureUPIProcessingSequence()" class="w-full bg-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase tracking-widest cursor-pointer">Validate Pin Handshake</button>
-            <div id="upi-processing-beacon" class="hidden text-center text-xs text-amber-400 animate-pulse font-mono">Syncing payment confirmation packets...</div>
-        </div>
-    </div>
-
-    <!-- INVOICE MODAL -->
-    <div id="invoice-modal-overlay" class="fixed inset-0 bg-slate-950/95 z-[300] hidden flex items-center justify-center p-4 backdrop-blur-2xl">
-        <div class="bg-slate-900 border border-emerald-500/20 rounded-3xl w-full max-w-sm p-6 text-center space-y-4">
-            <h3 class="text-sm font-black uppercase text-white">Transaction Settled Successfully</h3>
-            <div class="bg-slate-950 p-4 rounded-xl text-left font-mono text-[11px] text-slate-400 space-y-1">
-                <div class="flex justify-between"><span>Total Paid:</span><span id="invoice-amount-label" class="text-emerald-400 font-black">₹0</span></div>
-                <div class="flex justify-between"><span>Hash Token:</span><span id="invoice-hash-label">TXN-0000</span></div>
+    <!-- FAKE PAYMENT GATEWAY MODAL OVERLAY -->
+    <div id="upi-modal-overlay" class="fixed inset-0 bg-slate-950/95 z-[250] hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <div id="payment-box-container" class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-md p-6 space-y-6 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <span class="text-[11px] font-black text-slate-400 uppercase tracking-wider">Secure Payment Gateway</span>
+                <button onclick="document.getElementById('upi-modal-overlay').classList.add('hidden')" class="text-slate-500 hover:text-rose-400 transition cursor-pointer text-xs"><i class="fas fa-times"></i></button>
             </div>
-            <button onclick="flushBasketStateAndReturn()" class="text-xs text-slate-500 font-bold underline block mx-auto cursor-pointer">Clear Allocation</button>
+            <div class="text-center py-2 bg-slate-950/50 rounded-2xl border border-slate-950">
+                <h2 id="upi-modal-payable-amount" class="text-4xl font-black text-white">₹0</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-850 text-xs font-black uppercase text-center">
+                <button id="pay-tab-upi" onclick="switchPaymentGatewayMode('upi')" class="py-2.5 rounded-lg text-emerald-400 bg-slate-900 border border-slate-800 cursor-pointer transition flex items-center justify-center gap-2"><i class="fas fa-mobile-alt"></i> UPI Apps</button>
+                <button id="pay-tab-bank" onclick="switchPaymentGatewayMode('bank')" class="py-2.5 rounded-lg text-slate-400 hover:text-slate-200 cursor-pointer transition flex items-center justify-center gap-2"><i class="fas fa-university"></i> Net Banking</button>
+            </div>
+            <div id="dynamic-payment-fields" class="space-y-4"></div>
+            <div id="payment-processing-terminal" class="hidden space-y-4 bg-slate-950 p-4 rounded-xl border border-slate-900">
+                <div class="flex items-center justify-between text-xs font-mono"><span id="terminal-status-log" class="text-amber-400 animate-pulse">Establishing handshake...</span><span id="terminal-percentage" class="text-slate-500">0%</span></div>
+                <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden"><div id="terminal-progress-bar" class="h-full bg-gradient-to-r from-amber-500 to-emerald-500 transition-all duration-300 rounded-full" style="width: 0%"></div></div>
+            </div>
+            <button id="btn-trigger-payment-flow" onclick="initializeFakePaymentProcessingWorkflow()" class="w-full bg-emerald-500 text-slate-950 font-black py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-emerald-400 transition cursor-pointer">Verify & Pay Securely</button>
         </div>
     </div>
 
-    <footer class="bg-slate-950/40 border-t border-slate-900 px-6 py-4 text-center text-[10px] text-slate-600 mt-auto dom-content-matrix">
+    <!-- INVOICE SUCCESS MODAL OVERLAY -->
+    <div id="invoice-modal-overlay" class="fixed inset-0 bg-slate-950/95 z-[300] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-emerald-500/20 rounded-3xl w-full max-w-sm p-6 text-center space-y-6 shadow-2xl relative">
+            <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-2xl rounded-full flex items-center justify-center mx-auto animate-bounce"><i class="fas fa-check-circle"></i></div>
+            <h3 class="text-lg font-black uppercase text-white tracking-tight">Payment Successful</h3>
+            <div class="bg-slate-950 p-4 rounded-xl text-left font-mono text-[11px] text-slate-400 space-y-2 border border-slate-900">
+                <div class="flex justify-between"><span>Payment Mode:</span><span id="invoice-mode-label" class="text-white font-bold">UPI</span></div>
+                <div class="flex justify-between"><span>Total Settled:</span><span id="invoice-amount-label" class="text-emerald-400 font-black">₹0</span></div>
+                <div class="flex justify-between"><span>UTR / Ref ID:</span><span id="invoice-hash-label" class="text-slate-200 font-bold">TXN-0000</span></div>
+            </div>
+            <button onclick="flushBasketStateAndReturn()" class="w-full bg-slate-950 hover:bg-slate-900 border border-slate-800 font-black text-xs uppercase py-3 rounded-xl tracking-wider transition cursor-pointer">Clear Allocation & Return</button>
+        </div>
+    </div>
+
+    <footer class="bg-slate-950/40 border-t border-slate-900 px-6 py-4 text-center text-[10px] text-slate-600 mt-auto">
         <p>&copy; 2026 THE PRO VIBE NETWORKS INC.</p>
     </footer>
 
@@ -443,8 +470,9 @@
         let baseProductCatalogData = JSON.parse(localStorage.getItem('pavan_catalog')) || [...DEFAULT_CATALOG];
         let mutationsActiveCatalog = [...baseProductCatalogData];
         let stateGlobalCartMemory = [];
-        let globalProcessedOrdersDatabase = JSON.parse(localStorage.getItem('pavan_orders_db')) || [];
         let internalNavigationHistoryTrackerStack = ['home-node'];
+        let activeAuthInterfaceMode = 'login';
+        let selectedPaymentMode = 'upi';
 
         window.addEventListener('DOMContentLoaded', () => {
             initializeProductionWebGLStage();
@@ -452,7 +480,22 @@
             recompileStorefrontCatalogueDisplayGrid();
             recompileInterspersedRouteLanes();
             loadPersistedSystemTheme();
+            switchAuthInterfaceMode('login'); 
         });
+
+        function toggleGlobalLeftSidebar(openState) {
+            const sidebar = document.getElementById('left-sidebar-navigation-panel');
+            const mask = document.getElementById('sidebar-dim-mask-overlay');
+            if(!sidebar || !mask) return;
+
+            if(openState) {
+                sidebar.classList.add('sidebar-open');
+                mask.classList.add('overlay-open');
+            } else {
+                sidebar.classList.remove('sidebar-open');
+                mask.classList.remove('overlay-open');
+            }
+        }
 
         function applyCustomSystemBackground(type, value) {
             const bodyNode = document.getElementById('master-body-node');
@@ -480,7 +523,6 @@
         function processUniversalBackgroundInput() {
             const inputVal = document.getElementById('admin-universal-bg-input').value.trim();
             if(!inputVal) return alert("Please input background instructions.");
-
             if (inputVal.startsWith('http://') || inputVal.startsWith('https://') || inputVal.startsWith('data:image')) {
                 applyCustomSystemBackground('image', inputVal);
             } else {
@@ -490,13 +532,7 @@
 
         function loadPersistedSystemTheme() {
             const saveState = JSON.parse(localStorage.getItem('pavan_theme_config'));
-            if (saveState) {
-                applyCustomSystemBackground(saveState.type, saveState.value);
-                const universalInput = document.getElementById('admin-universal-bg-input');
-                if (universalInput && saveState.type === 'image') {
-                    universalInput.value = saveState.value;
-                }
-            }
+            if (saveState) applyCustomSystemBackground(saveState.type, saveState.value);
         }
 
         function navigateToRoute(targetNodeID) {
@@ -508,8 +544,7 @@
         function executeRouteBackwardsTransition() {
             if (internalNavigationHistoryTrackerStack.length > 1) {
                 internalNavigationHistoryTrackerStack.pop();
-                const fallbackNodeTargetID = internalNavigationHistoryTrackerStack[internalNavigationHistoryTrackerStack.length - 1];
-                executeDOMSwitchToRouteNode(fallbackNodeTargetID);
+                executeDOMSwitchToRouteNode(internalNavigationHistoryTrackerStack[internalNavigationHistoryTrackerStack.length - 1]);
             } else {
                 executeDOMSwitchToRouteNode('home-node');
             }
@@ -520,10 +555,13 @@
             const targetElement = document.getElementById(targetNodeID);
             if (targetElement) targetElement.classList.add('active-route');
             
-            document.querySelectorAll('nav button').forEach(btn => btn.className = "px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer");
-            const navBtn = document.getElementById(`btn-nav-${targetNodeID}`);
-            if (navBtn) navBtn.className = "px-3 py-1.5 rounded-xl transition text-emerald-400 bg-slate-950 border border-slate-800 cursor-pointer";
-            
+            document.querySelectorAll('#sidebar-nav-links-stack button').forEach(btn => {
+                if (btn.id === `btn-nav-${targetNodeID}`) {
+                    btn.className = "w-full text-left px-4 py-2.5 rounded-xl text-emerald-400 bg-slate-900 border border-slate-800 cursor-pointer transition";
+                } else if(btn.id !== 'btn-nav-auth-node') {
+                    btn.className = "w-full text-left px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/60 cursor-pointer transition";
+                }
+            });
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -537,8 +575,7 @@
             document.getElementById('detail-pane-price').innerText = `₹${selectedProduct.price}`;
             document.getElementById('detail-pane-desc').innerText = selectedProduct.desc;
 
-            const actionBox = document.getElementById('detail-pane-action-box');
-            actionBox.innerHTML = `
+            document.getElementById('detail-pane-action-box').innerHTML = `
                 <button onclick="appendProductToBasketAllocation(${selectedProduct.id})" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-4 rounded-xl text-xs uppercase tracking-widest transition cursor-pointer">
                     Add to Basket
                 </button>`;
@@ -561,8 +598,7 @@
         }
 
         function invokeAdminGate() {
-            let entryPhrase = prompt("Provide Authorized System Passphrase:");
-            if (entryPhrase === MASTER_ADMIN_KEY) navigateToRoute('admin-panel-node'); 
+            if (prompt("Provide Authorized System Passphrase:") === MASTER_ADMIN_KEY) navigateToRoute('admin-panel-node'); 
             else alert("Authorization failure.");
         }
 
@@ -599,6 +635,7 @@
             productionCategoriesList.forEach(categoryKey => {
                 let segmentFilteredItems = mutationsActiveCatalog.filter(p => p.hubLabel === categoryKey);
                 let sectionMarkup = `<section class="bg-slate-950/40 p-6 border border-slate-900/60 rounded-3xl space-y-4"><h4 class="text-xs font-black uppercase text-emerald-400 tracking-widest">${categoryKey}</h4><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">`;
+                
                 segmentFilteredItems.forEach(product => {
                     sectionMarkup += `
                         <div class="interactive-card bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden flex flex-col justify-between p-3" onclick="triggerProductDetailsPipeline(${product.id})">
@@ -612,7 +649,8 @@
                             </div>
                         </div>`;
                 });
-                sectionMarkup += `</div></section>`; target.innerHTML += sectionMarkup;
+                sectionMarkup += `</div></section>`; 
+                target.innerHTML += sectionMarkup;
             });
         }
 
@@ -641,19 +679,106 @@
         function triggerUPIModalFlow() {
             if(stateGlobalCartMemory.length === 0) return alert("Cart is empty.");
             document.getElementById('upi-modal-payable-amount').innerText = document.getElementById('cart-total-label').innerText;
+            switchPaymentGatewayMode('upi'); 
             document.getElementById('upi-modal-overlay').classList.remove('hidden');
         }
 
-        function executeSecureUPIProcessingSequence() {
-            document.getElementById('upi-processing-beacon').classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('upi-modal-overlay').classList.add('hidden');
-                document.getElementById('upi-processing-beacon').classList.add('hidden');
-                const generatedTxnToken = `TXN-NPCI-${Math.floor(100000 + Math.random() * 900000)}`;
-                document.getElementById('invoice-amount-label').innerText = document.getElementById('cart-total-label').innerText;
-                document.getElementById('invoice-hash-label').innerText = generatedTxnToken;
-                document.getElementById('invoice-modal-overlay').classList.remove('hidden');
-            }, 1000);
+        function switchPaymentGatewayMode(mode) {
+            selectedPaymentMode = mode;
+            const upiTab = document.getElementById('pay-tab-upi');
+            const bankTab = document.getElementById('pay-tab-bank');
+            const targetFields = document.getElementById('dynamic-payment-fields');
+            if(!targetFields) return;
+
+            document.getElementById('payment-processing-terminal').classList.add('hidden');
+            document.getElementById('btn-trigger-payment-flow').classList.remove('hidden');
+
+            if(mode === 'upi') {
+                upiTab.className = "py-2.5 rounded-lg text-emerald-400 bg-slate-900 border border-slate-800 cursor-pointer transition flex items-center justify-center gap-2";
+                bankTab.className = "py-2.5 rounded-lg text-slate-400 hover:text-slate-200 cursor-pointer transition flex items-center justify-center gap-2";
+                
+                targetFields.innerHTML = `
+                    <div class="space-y-1.5 font-mono text-xs text-left">
+                        <label class="text-[10px] uppercase text-slate-400 tracking-wider block">Select Preferred Target VPA Node</label>
+                        <select id="pay-vpa-provider" class="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-2.5 text-slate-200 outline-none focus:border-emerald-500">
+                            <option value="gpay">Google Pay (oksbi/okhdfc)</option>
+                            <option value="phonepe">PhonePe (ybl/axl)</option>
+                            <option value="paytm">Paytm UPI (paytm)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1.5 font-mono text-xs text-left">
+                        <label class="text-[10px] uppercase text-slate-400 tracking-wider block">Input Virtual Payment Address (VPA)</label>
+                        <input type="text" id="pay-vpa-handle" value="pavan@okaxis" placeholder="username@upi" class="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-slate-200 outline-none focus:border-emerald-500 font-bold">
+                    </div>
+                `;
+            } else {
+                bankTab.className = "py-2.5 rounded-lg text-emerald-400 bg-slate-900 border border-slate-800 cursor-pointer transition flex items-center justify-center gap-2";
+                upiTab.className = "py-2.5 rounded-lg text-slate-400 hover:text-slate-200 cursor-pointer transition flex items-center justify-center gap-2";
+                
+                targetFields.innerHTML = `
+                    <div class="space-y-1.5 font-mono text-xs text-left">
+                        <label class="text-[10px] uppercase text-slate-400 tracking-wider block">Select Corporate Banking Core</label>
+                        <select id="pay-bank-node" class="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-2.5 text-slate-200 outline-none focus:border-emerald-500">
+                            <option value="sbi">State Bank of India</option>
+                            <option value="hdfc">HDFC Bank Ltd</option>
+                            <option value="icici">ICICI Bank Infrastructure</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1.5 font-mono text-xs text-left">
+                        <label class="text-[10px] uppercase text-slate-400 tracking-wider block">Secure NetBanking Identification ID</label>
+                        <input type="text" value="PAVAN_CORE_99" class="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-slate-200 outline-none focus:border-emerald-500 font-bold">
+                    </div>
+                `;
+            }
+        }
+
+        function initializeFakePaymentProcessingWorkflow() {
+            const btn = document.getElementById('btn-trigger-payment-flow');
+            const terminal = document.getElementById('payment-processing-terminal');
+            const log = document.getElementById('terminal-status-log');
+            const percent = document.getElementById('terminal-percentage');
+            const bar = document.getElementById('terminal-progress-bar');
+            
+            if(selectedPaymentMode === 'upi' && !document.getElementById('pay-vpa-handle').value.trim()) {
+                 return alert("VPA token string missing.");
+            }
+
+            btn.classList.add('hidden');
+            terminal.classList.remove('hidden');
+
+            let progressionIndex = 0;
+            const logCheckpoints = [
+                "Initializing routing handshake with NPCI node...",
+                "Pinging bank clearing servers...",
+                "Validating encrypted cryptographic pin signatures...",
+                "Awaiting liquidity settlement protocols...",
+                "Finalizing ledger allocation entry updates..."
+            ];
+
+            const taskRunnerInterval = setInterval(() => {
+                progressionIndex += Math.floor(Math.random() * 15) + 5;
+                if(progressionIndex >= 100) {
+                    progressionIndex = 100;
+                    clearInterval(taskRunnerInterval);
+                    
+                    setTimeout(() => {
+                        document.getElementById('upi-modal-overlay').classList.add('hidden');
+                        const mockUTRRefID = `UTR-${Math.floor(Math.random() * 899999) + 100000}${Math.floor(Math.random() * 8999) + 1000}`;
+                        
+                        document.getElementById('invoice-mode-label').innerText = selectedPaymentMode.toUpperCase();
+                        document.getElementById('invoice-amount-label').innerText = document.getElementById('cart-total-label').innerText;
+                        document.getElementById('invoice-hash-label').innerText = mockUTRRefID;
+                        document.getElementById('invoice-modal-overlay').classList.remove('hidden');
+                    }, 400);
+                }
+                
+                percent.innerText = `${progressionIndex}%`;
+                bar.style.width = `${progressionIndex}%`;
+                
+                let checkpointTarget = Math.floor((progressionIndex / 100) * logCheckpoints.length);
+                if(checkpointTarget >= logCheckpoints.length) checkpointTarget = logCheckpoints.length - 1;
+                log.innerText = logCheckpoints[checkpointTarget];
+            }, 250);
         }
 
         function flushBasketStateAndReturn() {
@@ -666,17 +791,63 @@
             if(confirm("Restore defaults?")) { localStorage.clear(); location.reload(); }
         }
 
+        function executeLiveOrderTrackingPipeline() {
+            const token = document.getElementById('tracking-token-input').value.trim();
+            const resultWin = document.getElementById('tracking-result-window');
+            if(!token) return alert("Please supply a valid tracking packet token hash.");
+            
+            resultWin.classList.remove('hidden');
+            resultWin.innerHTML = `
+                <h5 class="text-xs font-black uppercase text-emerald-400 font-mono"><i class="fas fa-satellite-dish"></i> Pipeline Trace Active</h5>
+                <div class="space-y-2 text-[11px] font-mono text-slate-400 text-left">
+                    <p>Target Token: <span class="text-white font-bold">${token}</span></p>
+                    <p>Logistics Node Status: <span class="text-amber-400 animate-pulse uppercase font-bold">Package In Transit</span></p>
+                </div>`;
+        }
+
+        function switchAuthInterfaceMode(mode) {
+            activeAuthInterfaceMode = mode;
+            const loginTab = document.getElementById('tab-toggle-login');
+            const regTab = document.getElementById('tab-toggle-register');
+            const formContainer = document.getElementById('auth-dynamic-form-element');
+            if(!formContainer) return;
+
+            if(mode === 'login') {
+                loginTab.className = "w-1/2 pb-3 text-emerald-400 border-b-2 border-emerald-500 cursor-pointer transition";
+                regTab.className = "w-1/2 pb-3 text-slate-500 border-b-2 border-transparent cursor-pointer hover:text-slate-300 transition";
+                formContainer.innerHTML = `
+                    <input type="email" required placeholder="name@domain.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:border-emerald-500 outline-none">
+                    <input type="password" required placeholder="••••••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:border-emerald-500 outline-none">
+                    <button type="submit" class="w-full bg-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase cursor-pointer tracking-wider hover:bg-emerald-400 transition">Verify Access Keys</button>
+                `;
+            } else {
+                regTab.className = "w-1/2 pb-3 text-emerald-400 border-b-2 border-emerald-500 cursor-pointer transition";
+                loginTab.className = "w-1/2 pb-3 text-slate-500 border-b-2 border-transparent cursor-pointer hover:text-slate-300 transition";
+                formContainer.innerHTML = `
+                    <input type="text" required placeholder="User Alias / Name" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:border-emerald-500 outline-none">
+                    <input type="email" required placeholder="name@domain.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:border-emerald-500 outline-none">
+                    <input type="password" required placeholder="Create Master Password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:border-emerald-500 outline-none">
+                    <button type="submit" class="w-full bg-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase cursor-pointer tracking-wider hover:bg-emerald-400 transition">Generate New Node Account</button>
+                `;
+            }
+        }
+
+        function executeUserHandshake(e) {
+            e.preventDefault();
+            if(activeAuthInterfaceMode === 'login') alert("Security handshake verified.");
+            else alert("Registration packet processed!");
+            navigateToRoute('shop-node');
+        }
+
         function initializeProductionWebGLStage() {
             const stageBox = document.getElementById('global-webgl-physics-canvas'); if(!stageBox) return;
-            const w = window.innerWidth, h = window.innerHeight;
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000); camera.position.z = 5.5;
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); renderer.setSize(w, h);
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000); camera.position.z = 5.5;
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); renderer.setSize(window.innerWidth, window.innerHeight);
             stageBox.appendChild(renderer.domElement);
             
-            const geometry = new THREE.IcosahedronGeometry(1.8, 2);
-            const material = new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.12 });
-            const sphere = new THREE.Mesh(geometry, material); scene.add(sphere);
+            const sphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1.8, 2), new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.12 })); 
+            scene.add(sphere);
 
             function animate() {
                 requestAnimationFrame(animate);
