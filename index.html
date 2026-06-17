@@ -1,725 +1,696 @@
-<!DOCTYPE html>
+
+            <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE PAVAN CLOTHING CO.</title>
+    <title>THE PRO VIBE | Advanced Physics Commerce Matrix</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome Engine for Global Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js Production Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        :root {
-            --bg-dark: #070708;
-            --matrix-green: #00ff66;
-            --matrix-glow: rgba(0, 255, 102, 0.3);
-            --panel-bg: rgba(13, 15, 13, 0.95);
-            --card-bg: rgba(20, 24, 20, 0.6);
-            --border-color: #1a3a21;
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght=700&family=Space+Grotesk:wght=400;500;700&display=swap');
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+            background-color: #020617; 
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            overflow-x: hidden; 
+            transition: background-image 0.3s ease-in-out, background-color 0.3s ease-in-out;
         }
+        .logo-text { font-family: 'Syncopate', sans-serif; }
+        
+        /* Rigid Route State Control Engine */
+        .spa-route { display: none; }
+        .spa-route.active-route { display: block; animation: routeClipIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes routeClipIn { from { opacity: 0; transform: scale(0.99) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: #ffffff;
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 50%, #0d2212 0%, #070708 80%);
-        }
-
-        /* ---------------- HEADER & NAVIGATION ---------------- */
-        header {
+        /* PURE SCREEN GL PHYSICS LAYER CONFIGURATION */
+        #global-webgl-physics-canvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(7, 7, 8, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        #menu-trigger-btn {
-            background: none;
-            border: none;
-            color: var(--matrix-green);
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #menu-trigger-btn:hover {
-            text-shadow: 0 0 10px var(--matrix-green);
-        }
-
-        /* THE LEFT SIDEBAR PANEL */
-        #left-sidebar-navigation-panel {
-            position: fixed;
-            top: 0;
-            left: -320px;
-            width: 300px;
+            width: 100vw;
             height: 100vh;
-            background: var(--panel-bg);
-            border-right: 2px solid var(--matrix-green);
-            z-index: 999;
-            transition: transform 0.4s cubic-bezier(0.77, 0.2, 0.05, 1.0);
-            padding: 30px 20px;
-            box-shadow: 5px 0 30px rgba(0, 255, 102, 0.1);
-            display: flex;
-            flex-direction: column;
+            pointer-events: auto;
+            z-index: 10;
         }
-
-        #left-sidebar-navigation-panel.active {
-            transform: translateX(320px);
-        }
-
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-
-        .sidebar-header h3 {
-            color: var(--matrix-green);
-            font-size: 18px;
-            letter-spacing: 2px;
-        }
-
-        .close-sidebar-btn {
-            background: none;
-            border: none;
-            color: #ff3b3b;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .sidebar-links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .sidebar-links a, .sidebar-links button {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 12px 15px;
-            border-radius: 4px;
-            border: 1px solid transparent;
-            background: none;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .sidebar-links a:hover, .sidebar-links button:hover {
-            background: rgba(0, 255, 102, 0.05);
-            border-color: var(--matrix-green);
-            color: var(--matrix-green);
-            padding-left: 20px;
-        }
-
-        .sidebar-links i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .logo h1 {
-            font-size: 20px;
-            letter-spacing: 3px;
-            color: #fff;
-        }
-
-        .logo span {
-            color: var(--matrix-green);
-            text-shadow: 0 0 10px var(--matrix-green);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .cart-icon-container {
-            position: relative;
-            cursor: pointer;
-            font-size: 22px;
-            color: var(--matrix-green);
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -10px;
-            background: #ff3b3b;
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 5px;
-        }
-
-        /* ---------------- CATALOG CONTAINER ---------------- */
-        main {
-            max-width: 1300px;
-            margin: 120px auto 60px;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 24px;
-            letter-spacing: 4px;
-            color: var(--matrix-green);
-            text-transform: uppercase;
-        }
-
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        /* ---------------- PRODUCT CARD ---------------- */
-        .product-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--matrix-green);
-            box-shadow: 0 5px 20px rgba(0, 255, 102, 0.15);
-        }
-
-        .hub-tag {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(0, 0, 0, 0.85);
-            color: var(--matrix-green);
-            border: 1px solid var(--matrix-green);
-            padding: 4px 10px;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 3px;
-            z-index: 2;
-        }
-
-        .product-img-wrapper {
-            width: 100%;
-            height: 340px;
-            background: #111;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .product-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-img-wrapper img {
-            transform: scale(1.05);
-        }
-
-        .product-info {
-            padding: 20px;
-            background: rgba(10, 12, 10, 0.9);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .product-title {
-            font-size: 16px;
-            color: #ffffff;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .product-desc {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 15px;
-            line-height: 1.4;
-            height: 34px;
-            overflow: hidden;
-        }
-
-        .product-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .product-price {
-            font-size: 18px;
-            color: var(--matrix-green);
-            font-weight: bold;
-        }
-
-        .add-to-cart-btn {
-            background: transparent;
-            border: 1px solid var(--matrix-green);
-            color: var(--matrix-green);
-            padding: 8px 14px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s;
-            border-radius: 4px;
-        }
-
-        .add-to-cart-btn:hover {
-            background: var(--matrix-green);
-            color: #000;
-            box-shadow: 0 0 10px var(--matrix-green);
-            font-weight: bold;
-        }
-
-        /* ---------------- PAVAN PANEL CONTROL CENTER ---------------- */
-        #pavan-admin-panel {
-            position: fixed;
-            top: 0;
-            right: -420px;
-            width: 400px;
-            height: 100vh;
-            background: var(--panel-bg);
-            border-left: 2px solid var(--matrix-green);
-            z-index: 1000;
-            transition: transform 0.4s ease;
-            padding: 30px 20px;
-            box-shadow: -5px 0 30px rgba(0,255,102,0.15);
-            overflow-y: auto;
-        }
-
-        #pavan-admin-panel.active {
-            transform: translateX(-420px);
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--matrix-green);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-
-        .panel-header h2 {
-            color: var(--matrix-green);
-            font-size: 18px;
-            letter-spacing: 2px;
-        }
-
-        .close-panel-btn {
-            background: none;
-            border: none;
-            color: #ff3b3b;
-            font-size: 22px;
-            cursor: pointer;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            color: var(--matrix-green);
-            font-size: 12px;
-            margin-bottom: 6px;
-            letter-spacing: 1px;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 10px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--matrix-green);
-        }
-
-        .inject-btn {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--matrix-green);
-            color: var(--matrix-green);
-            padding: 12px;
-            cursor: pointer;
-            font-weight: bold;
-            letter-spacing: 2px;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        .inject-btn:hover {
-            background: var(--matrix-green);
-            color: #000;
-            box-shadow: 0 0 15px var(--matrix-green);
-        }
-
-        @media (max-width: 450px) {
-            #pavan-admin-panel {
-                width: 100%;
-                right: -100%;
-            }
-            #pavan-admin-panel.active {
-                transform: translateX(-100%);
-            }
-        }
+        .dom-content-matrix { position: relative; z-index: 20; pointer-events: none; }
+        .click-node { pointer-events: auto; }
+        
+        /* Smooth Scale Micro-Interactions */
+        .interactive-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; }
+        .interactive-card:hover { transform: translateY(-4px); border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.1); }
     </style>
 </head>
-<body>
+<body id="master-body-node" class="text-slate-100 min-h-screen flex flex-col selection:bg-emerald-400 selection:text-slate-950 relative">
 
-    <header>
-        <div class="nav-left">
-            <button id="menu-trigger-btn">
-                <i class="fa-solid fa-bars"></i>
+    <!-- GLOBAL PURE SCREEN 3D WEBGL HUB -->
+    <div id="global-webgl-physics-canvas"></div>
+
+    <!-- CORE DECORATIVE VECTOR GRADIENT BACKDROP -->
+    <div id="global-gradient-overlay" class="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.04),transparent_70%)] pointer-events-none z-0"></div>
+
+    <!-- PRODUCTION HEADER & ULTRA NAV PIPELINE -->
+    <header class="bg-slate-950/80 backdrop-blur-2xl border-b border-slate-900 sticky top-0 z-50 px-4 lg:px-8 py-4 flex flex-col xl:flex-row justify-between items-center gap-4 dom-content-matrix">
+        <div class="flex items-center justify-between w-full xl:w-auto gap-4 click-node">
+            <!-- BACK NAVIGATION BUTTON BLOCK -->
+            <button onclick="executeRouteBackwardsTransition()" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer">
+                <i class="fas fa-chevron-left"></i> Back
             </button>
-            <div class="logo">
-                <h1>THE PAVAN<span> CLOTHING CO.</span></h1>
-            </div>
+            <h1 onclick="navigateToRoute('home-node')" class="logo-text text-xl font-black tracking-widest cursor-pointer bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent hover:opacity-80 transition">
+                THE PRO VIBE
+            </h1>
+            <button onclick="invokeAdminGate()" class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition cursor-pointer">
+                <i class="fas fa-lock-open"></i> Pavan Panel
+            </button>
         </div>
-        <div class="nav-right">
-            <div class="cart-icon-container">
-                <i class="fa-solid fa-square-terminal"></i>
-                <span class="cart-badge" id="cart-counter-badge">0</span>
-            </div>
+
+        <!-- ECOSYSTEM ROUTING BUS -->
+        <nav class="flex flex-wrap justify-center items-center gap-1.5 bg-slate-900/60 p-1.5 rounded-2xl border border-slate-800/80 text-[11px] font-bold tracking-wider uppercase click-node max-w-full">
+            <button id="btn-nav-home-node" onclick="navigateToRoute('home-node')" class="px-3 py-1.5 rounded-xl transition text-emerald-400 bg-slate-950 border border-slate-800 cursor-pointer">Home</button>
+            <button id="btn-nav-shop-node" onclick="navigateToRoute('shop-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Shop</button>
+            <button id="btn-nav-categories-node" onclick="navigateToRoute('categories-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Categories</button>
+            <button id="btn-nav-bestsellers-node" onclick="navigateToRoute('bestsellers-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">BestSellers</button>
+            <button id="btn-nav-newdrops-node" onclick="navigateToRoute('newdrops-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">NewDrops</button>
+            <button id="btn-nav-vault-node" onclick="navigateToRoute('vault-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">TheVault</button>
+            <button id="btn-nav-radar-node" onclick="navigateToRoute('radar-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Radar</button>
+            <button id="btn-nav-community-node" onclick="navigateToRoute('community-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Community</button>
+            <button id="btn-nav-track-node" onclick="navigateToRoute('track-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Track Order</button>
+            <button id="btn-nav-support-node" onclick="navigateToRoute('support-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Support</button>
+            <button id="btn-nav-faq-node" onclick="navigateToRoute('faq-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">FAQ</button>
+            <button id="btn-nav-sizes-node" onclick="navigateToRoute('sizes-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">Sizes</button>
+            <button id="btn-nav-about-node" onclick="navigateToRoute('about-node')" class="px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer">About</button>
+            <button id="btn-nav-auth-node" onclick="navigateToRoute('auth-node')" class="px-3 py-1.5 rounded-xl transition text-amber-400 hover:text-amber-300 cursor-pointer"><i class="fas fa-fingerprint"></i> Access Node</button>
+        </nav>
+        
+        <!-- COMMERCE CART TRIGGER ACTION -->
+        <div onclick="navigateToRoute('cart-node')" class="cursor-pointer bg-slate-900 hover:bg-slate-800 px-4 py-2 border border-slate-800 hover:border-emerald-500/30 rounded-xl transition flex items-center gap-3 click-node">
+            <i class="fas fa-shopping-bag text-emerald-400"></i>
+            <span id="global-cart-counter" class="bg-rose-500 text-white text-[10px] px-1.5 py-0.5 rounded-md font-black shadow-lg shadow-rose-500/20">0</span>
         </div>
     </header>
 
-    <nav id="left-sidebar-navigation-panel">
-        <div class="sidebar-header">
-            <h3>NAVIGATION</h3>
-            <button class="close-sidebar-btn" id="close-nav-sidebar">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <div class="sidebar-links">
-            <a href="#"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="#"><i class="fa-solid fa-bolt"></i> New Arrivals</a>
-            <a href="#"><i class="fa-solid fa-tags"></i> Collections</a>
-            <a href="#"><i class="fa-solid fa-user-secret"></i> About</a>
-            <hr style="border-color: var(--border-color); margin: 10px 0;">
-            <button id="trigger-pavan-panel-btn">
-                <i class="fa-solid fa-terminal" style="color: var(--matrix-green);"></i> Pavan Panel
-            </button>
-        </div>
-    </nav>
+    <!-- INTERCONNECTED COMPREHENSIVE PAGES ROUTING MATRIX -->
+    <main class="flex-grow dom-content-matrix z-20 relative w-full">
 
-    <main>
-        <h2 class="section-title">// SYSTEM_CATALOG_LOADED</h2>
-        <div class="catalog-grid" id="main-catalog-grid-display">
+        <!-- 1. HOME LANDING NODE -->
+        <div id="home-node" class="spa-route active-route max-w-4xl mx-auto px-6 py-16 text-center space-y-12">
+            <div class="space-y-6">
+                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-block click-node animate-pulse">SYSTEM ROOT NODE OPERATIONAL</span>
+                <h2 class="text-5xl md:text-8xl font-black tracking-tighter leading-none text-white">THE NEXT GEN <br><span class="bg-gradient-to-r from-amber-400 via-orange-500 to-emerald-400 bg-clip-text text-transparent">ANIME DRIP</span></h2>
+                <p class="text-slate-400 text-xs md:text-sm max-w-xl mx-auto leading-relaxed">High-end apparel matrix synchronized with fullscreen WebGL physics modules.</p>
+                <div class="flex justify-center gap-4 pt-2 click-node">
+                    <button onclick="navigateToRoute('shop-node')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-8 py-4 rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-emerald-500/20 transition duration-300 scale-100 hover:scale-[1.03] cursor-pointer">Browse Full Catalog</button>
+                    <button onclick="navigateToRoute('auth-node')" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-black px-6 py-4 rounded-xl text-xs uppercase tracking-widest transition duration-300 cursor-pointer">Secure Access Node</button>
+                </div>
             </div>
-    </main>
 
-    <div id="pavan-admin-panel">
-        <div class="panel-header">
-            <h2>PAVAN CONTROL CENTER v2.4</h2>
-            <button class="close-panel-btn" id="close-pavan-admin-btn">&times;</button>
-        </div>
-        
-        <div class="form-group">
-            <label>PRODUCT HUB LABEL</label>
-            <select id="inj-hub">
-                <option value="Oversized Streetwear">Oversized Streetwear</option>
-                <option value="Premium Anime Hoodies">Premium Anime Hoodies</option>
-                <option value="Baggy Parachute Cargo">Baggy Parachute Cargo</option>
-                <option value="Luxury Drop Shoulder">Luxury Drop Shoulder</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>PRODUCT NAME</label>
-            <input type="text" id="inj-name" placeholder="e.g., Cyberpunk Phantom Tee">
-        </div>
-        <div class="form-group">
-            <label>PRICE (INR)</label>
-            <input type="number" id="inj-price" placeholder="e.g., 1499">
-        </div>
-        <div class="form-group">
-            <label>PRODUCT IMAGE</label>
-            <input type="file" id="inj-img-file" accept="image/*">
-            <p style="font-size:10px; color:#666; margin-top:5px;">Or paste image URL below:</p>
-            <input type="text" id="inj-img-url" placeholder="https://example.com/image.jpg" style="margin-top:5px;">
-        </div>
-        <div class="form-group">
-            <label>SYSTEM DESCRIPTION</label>
-            <textarea id="inj-desc" rows="3" placeholder="Brief technical specs of fabric..."></textarea>
-        </div>
-        
-        <button class="inject-btn" id="execute-injection-btn">UPLOAD & INJECT PRODUCT</button>
-    </div>
-
-    <script>
-        // 12 HIGH QUALITY PRODUCTS CATALOG ARRAY LOADED
-        const DEFAULT_CATALOG = [
-            {
-                id: 1,
-                hubLabel: "Oversized Streetwear",
-                name: "Cyber Tokyo Overdrive Tee",
-                price: 1299,
-                desc: "High-definition puff print graphic. Ultra-premium 240 GSM heavy-weight loopknit cotton.",
-                img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 2,
-                hubLabel: "Premium Anime Hoodies",
-                name: "Gojo Domain Infinite Hoodie",
-                price: 2799,
-                desc: "Luxury cyberpunk anime design. 400 GSM ultra-soft fleece with high-density premium embroidery.",
-                img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 3,
-                hubLabel: "Baggy Parachute Cargo",
-                name: "Tactical Matrix Cargo Pants",
-                price: 2199,
-                desc: "Water-resistant techwear ripstop fabric. Adjustable ankle toggles with multiple tactical pockets.",
-                img: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 4,
-                hubLabel: "Luxury Drop Shoulder",
-                name: "Acid Wash Vintage Aesthetic Tee",
-                price: 1499,
-                desc: "Custom heavy washed vintage finish giving rich streetwear texture. 100% combed cotton.",
-                img: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 5,
-                hubLabel: "Oversized Streetwear",
-                name: "Neon Shinjuku Phantom Tee",
-                price: 1399,
-                desc: "Glow in the dark matrix ink layout. Relaxed aesthetic streetwear comfort drop shoulder fit.",
-                img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 6,
-                hubLabel: "Premium Anime Hoodies",
-                name: "Sukuna Cursed King Cloak Hoodie",
-                price: 2899,
-                desc: "Deep crimson premium threadwork. Oversized heavy hoodie fit with gunmetal drawstring aglets.",
-                img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 7,
-                hubLabel: "Luxury Drop Shoulder",
-                name: "Retro Cyberpunk Hackers Tee",
-                price: 1599,
-                desc: "Glitch texture neon graphic print. Extreme drop shoulder style tailored for ultimate street fit.",
-                img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 8,
-                hubLabel: "Baggy Parachute Cargo",
-                name: "Desert Ghost Parachute Cargo",
-                price: 2399,
-                desc: "Ultra baggy streetwear silhouette. Multi-strap utility aesthetic with light featherweight premium nylon build.",
-                img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 9,
-                hubLabel: "Oversized Streetwear",
-                name: "Phantom Eclipse Heavy Knit Tee",
-                price: 1450,
-                desc: "Minimalist structural font graphic. Raw edge detailing with premium breathable premium luxury cotton knit.",
-                img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 10,
-                hubLabel: "Premium Anime Hoodies",
-                name: "Zenith Mecha Cyber Suit Hoodie",
-                price: 2999,
-                desc: "Sci-fi futuristic panel line geometric graphics. Double layered hood structure with dense warm internal insulation.",
-                img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 11,
-                hubLabel: "Luxury Drop Shoulder",
-                name: "Tokyo Underworld Varsity Jacket",
-                price: 3499,
-                desc: "Authentic heavy felt wool structure with custom vegan leather sleeves and high definition patches.",
-                img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                id: 12,
-                hubLabel: "Baggy Parachute Cargo",
-                name: "Obsidian Techwear Cargo Track",
-                price: 1999,
-                desc: "Matte-black dynamic techwear silhouette. Quick-snap elastic waistband with extreme pocket configurations.",
-                img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80"
-            }
-        ];
-
-        let catalogData = [];
-        let cartCount = 0;
-
-        const mainCatalogGrid = document.getElementById('main-catalog-grid-display');
-        const menuTriggerBtn = document.getElementById('menu-trigger-btn');
-        const leftSidebar = document.getElementById('left-sidebar-navigation-panel');
-        const closeNavSidebar = document.getElementById('close-nav-sidebar');
-        const pavanAdminPanel = document.getElementById('pavan-admin-panel');
-        const triggerPavanPanelBtn = document.getElementById('trigger-pavan-panel-btn');
-        const closePavanAdminBtn = document.getElementById('close-pavan-admin-btn');
-        const cartCounterBadge = document.getElementById('cart-counter-badge');
-
-        // Always overwrite old stored session cache to cleanly load all 12 products
-        function initDatabase() {
-            catalogData = [...DEFAULT_CATALOG];
-            localStorage.setItem('pavan_custom_catalog', JSON.stringify(catalogData));
-            renderCatalog();
-        }
-
-        function renderCatalog() {
-            mainCatalogGrid.innerHTML = '';
-            catalogData.forEach(prod => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <span class="hub-tag">${prod.hubLabel}</span>
-                    <div class="product-img-wrapper">
-                        <img src="${prod.img}" alt="${prod.name}" onerror="this.src='https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=800'">
+            <!-- SINGLE STRATEGIC HIGHLIGHT PRODUCT -->
+            <div class="bg-slate-950/60 border border-slate-900 rounded-3xl p-6 text-left max-w-md mx-auto space-y-4 click-node mt-6 transition hover:border-emerald-500/20" onclick="triggerProductDetailsPipeline(5)">
+                <span class="text-[9px] bg-purple-500/10 border border-purple-500/20 text-purple-400 px-2.5 py-1 rounded-md font-black uppercase tracking-widest">Featured Blueprint (Click to View)</span>
+                <div class="flex gap-4 items-center">
+                    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80" class="w-24 h-24 object-cover rounded-xl border border-slate-800">
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-black text-white uppercase">Gojo Domain Infinite Hoodie</h4>
+                        <p class="text-[11px] text-slate-400 font-mono line-clamp-2">Infinite Void vector arts back-print heavy fleece design fabric.</p>
+                        <p class="text-xs font-mono font-black text-emerald-400 pt-1">₹2799</p>
                     </div>
-                    <div class="product-info">
-                        <h4 class="product-title">${prod.name}</h4>
-                        <p class="product-desc">${prod.desc || 'Premium heavyweight luxury streetwear product curated by Pavan Clothing.'}</p>
-                        <div class="product-meta">
-                            <span class="product-price">₹${prod.price}</span>
-                            <button class="add-to-cart-btn" onclick="addToCartTrigger()">ADD TO CART</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT DETAILS NODE -->
+        <div id="product-details-node" class="spa-route max-w-5xl mx-auto px-6 py-12 space-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-950/60 border border-slate-900 p-6 md:p-10 rounded-3xl click-node">
+                <div class="w-full flex items-center justify-center bg-slate-950 p-2 rounded-2xl border border-slate-900">
+                    <img id="detail-pane-image" src="" class="w-full max-h-[420px] object-cover rounded-xl">
+                </div>
+                <div class="flex flex-col justify-between space-y-6">
+                    <div class="space-y-3">
+                        <span id="detail-pane-tag" class="text-[9px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1 rounded-md font-black uppercase tracking-wider inline-block">Category Spec</span>
+                        <h2 id="detail-pane-title" class="text-2xl md:text-4xl font-black tracking-tight text-white uppercase">Product Title</h2>
+                        <p id="detail-pane-price" class="text-2xl font-mono font-black text-emerald-400">₹0</p>
+                        <hr class="border-slate-900">
+                        <p id="detail-pane-desc" class="text-xs md:text-sm text-slate-400 leading-relaxed font-mono">Product breakdown descriptions blueprint logs go here.</p>
+                    </div>
+                    <div id="detail-pane-action-box"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTRAL SHOP CATALOG -->
+        <div id="shop-node" class="spa-route max-w-7xl mx-auto px-6 py-12 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-900 pb-6 click-node">
+                <div>
+                    <h3 class="text-xl font-black uppercase tracking-wider text-white">Ecosystem Inventory Stream</h3>
+                    <p class="text-xs text-slate-500 mt-1">Real-time keyword analysis filter active</p>
+                </div>
+                <input type="text" oninput="executeClientSideSearch(this.value)" placeholder="Search dynamic apparel blueprints..." class="bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-2.5 text-xs w-full md:max-w-xs outline-none text-white transition">
+            </div>
+            <div id="shop-shelves-injection-point" class="space-y-12 click-node"></div>
+        </div>
+
+        <!-- AUTH NODE -->
+        <div id="auth-node" class="spa-route max-w-sm mx-auto px-6 py-14">
+            <div class="bg-slate-900/90 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl click-node relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+                <div class="flex border-b border-slate-800 text-center text-xs font-black uppercase tracking-wider">
+                    <button id="tab-toggle-login" onclick="switchAuthInterfaceMode('login')" class="w-1/2 pb-3 text-emerald-400 border-b-2 border-emerald-500 cursor-pointer">Login</button>
+                    <button id="tab-toggle-register" onclick="switchAuthInterfaceMode('register')" class="w-1/2 pb-3 text-slate-500 border-b-2 border-transparent cursor-pointer hover:text-slate-300">Register</button>
+                </div>
+                <form onsubmit="executeUserHandshake(event, 'login')" class="space-y-4">
+                    <input type="email" id="login-email" placeholder="name@domain.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white">
+                    <input type="password" id="login-password" placeholder="••••••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white">
+                    <button type="submit" class="w-full bg-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase cursor-pointer">Verify Access Keys</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- CATEGORIES DIRECTORY -->
+        <div id="categories-node" class="spa-route max-w-5xl mx-auto px-6 py-12 space-y-8 text-center">
+            <h3 class="text-2xl font-black uppercase tracking-widest text-white">Structural Categories Node Map</h3>
+            <div id="categories-grid-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4 click-node"></div>
+        </div>
+
+        <!-- BEST SELLERS -->
+        <div id="bestsellers-node" class="spa-route max-w-5xl mx-auto px-6 py-12 space-y-6">
+            <h3 class="text-2xl font-black text-amber-400 uppercase tracking-widest text-center">High-Velocity Top Drops</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 click-node" id="bestsellers-lane"></div>
+        </div>
+
+        <!-- NEW DROPS -->
+        <div id="newdrops-node" class="spa-route max-w-5xl mx-auto px-6 py-12 space-y-6">
+            <h3 class="text-2xl font-black text-purple-400 uppercase tracking-widest text-center">Fresh Batch Releases</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 click-node" id="newdrops-lane"></div>
+        </div>
+
+        <!-- EXCLUSIVE VAULT -->
+        <div id="vault-node" class="spa-route max-w-3xl mx-auto px-6 py-12 text-center">
+            <div class="bg-gradient-to-br from-red-950/30 to-slate-950 border border-red-500/20 p-12 rounded-3xl space-y-6">
+                <i class="fas fa-radiation text-red-500 text-4xl animate-pulse"></i>
+                <h3 class="text-3xl font-black uppercase text-red-400 tracking-tighter">Elite Serial Vault</h3>
+                <button onclick="navigateToRoute('shop-node')" class="bg-red-500 text-white font-black px-8 py-3 rounded-xl text-xs uppercase cursor-pointer">Override Lock Gate</button>
+            </div>
+        </div>
+
+        <!-- BASKET (CART) -->
+        <div id="cart-node" class="spa-route max-w-xl mx-auto px-6 py-12">
+            <div class="bg-slate-950/90 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-2xl click-node">
+                <h4 class="text-xs font-black uppercase text-slate-400 tracking-wider flex items-center gap-2"><i class="fas fa-terminal text-emerald-400"></i> Active Checkout Basket Matrix</h4>
+                <div id="cart-node-viewport" class="space-y-2"></div>
+                <div class="pt-4 border-t border-slate-900 flex justify-between items-center">
+                    <span class="text-xs font-black text-slate-500">AGGREGATE SYSTEM TOTAL:</span>
+                    <span id="cart-total-label" class="text-xl font-black text-emerald-400">₹0</span>
+                </div>
+                <button onclick="triggerUPIModalFlow()" class="w-full bg-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase tracking-widest hover:bg-emerald-400 transition cursor-pointer">Initialize Secure Payment Route</button>
+            </div>
+        </div>
+
+        <!-- LOGISTICS TRACKER -->
+        <div id="track-node" class="spa-route max-w-xl mx-auto px-6 py-12 space-y-6">
+            <div class="bg-slate-900/90 border border-slate-800 p-8 rounded-3xl space-y-4 text-center shadow-2xl click-node">
+                <input type="text" id="tracking-token-input" placeholder="e.g., TXN-NPCI-582941" class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-3 text-xs text-white text-center">
+                <button onclick="executeLiveOrderTrackingPipeline()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase px-6 py-3 rounded-xl transition cursor-pointer">Track Order</button>
+            </div>
+            <div id="tracking-result-window" class="hidden bg-slate-950/90 border border-slate-800 p-6 rounded-3xl space-y-6 click-node"></div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!--  UPDATED HIGH-FIDELITY LAYOUTS & RE-ENGINEERED STATIC PAGES  -->
+        <!-- ============================================================= -->
+        
+        <!-- 1. RADAR NODE (TRENDING INSIGHTS) -->
+        <div id="radar-node" class="spa-route max-w-4xl mx-auto px-6 py-12 space-y-8">
+            <div class="text-center space-y-2 click-node">
+                <span class="bg-teal-500/10 border border-teal-500/30 text-teal-400 px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-widest">Global Fashion Analysis Radar</span>
+                <h3 class="text-3xl font-black text-white uppercase tracking-tight">Style Radar Feed</h3>
+                <p class="text-xs text-slate-400 font-mono max-w-md mx-auto">Real-time design trends, metadata heatmaps, and demand forecast loops.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 click-node">
+                <div class="bg-slate-950/80 border border-slate-900 p-5 rounded-2xl space-y-3">
+                    <div class="flex justify-between items-center"><span class="text-xs font-black uppercase text-slate-300">Trending Frameworks</span><span class="text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">98% Velocity</span></div>
+                    <div class="space-y-2 font-mono text-xs text-slate-400">
+                        <div class="flex justify-between border-b border-slate-900/60 pb-1"><span>01. Heavy Knit Cyber Overlays</span><span class="text-white font-bold">High Demand</span></div>
+                        <div class="flex justify-between border-b border-slate-900/60 pb-1"><span>02. Drop Shoulder Vector Outlines</span><span class="text-white font-bold">Surging</span></div>
+                        <div class="flex justify-between border-b border-slate-900/60 pb-1"><span>03. Reflective Ink Prints</span><span class="text-white font-bold">Stable</span></div>
+                    </div>
+                </div>
+                <div class="bg-slate-950/80 border border-slate-900 p-5 rounded-2xl space-y-3">
+                    <span class="text-xs font-black uppercase text-slate-300 block">System Fabric Metrics</span>
+                    <div class="space-y-3">
+                        <div><div class="flex justify-between text-[11px] mb-1 font-mono text-slate-400"><span>Premium Heavy Cotton (300+ GSM)</span><span>85%</span></div><div class="w-full h-1 bg-slate-900 rounded-full"><div class="h-full bg-teal-400 rounded-full" style="width: 85%;"></div></div></div>
+                        <div><div class="flex justify-between text-[11px] mb-1 font-mono text-slate-400"><span>Sustainable Loop-Back Fleece</span><span>62%</span></div><div class="w-full h-1 bg-slate-900 rounded-full"><div class="h-full bg-emerald-400 rounded-full" style="width: 62%;"></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. COMMUNITY (SYNDICATE NODE NETWORK) -->
+        <div id="community-node" class="spa-route max-w-4xl mx-auto px-6 py-12 space-y-8">
+            <div class="text-center space-y-2 click-node">
+                <h3 class="text-3xl font-black text-white uppercase tracking-tight">SYNDICATE HUB</h3>
+                <p class="text-xs text-slate-400 max-w-md mx-auto font-mono">Connect with streetwear nodes, share setups, and unlock drop protocols.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 click-node">
+                <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-6 rounded-2xl text-center space-y-3">
+                    <i class="fab fa-discord text-indigo-400 text-2xl"></i>
+                    <h5 class="text-sm font-black uppercase text-white">Discord Guild</h5>
+                    <p class="text-[11px] text-slate-400 font-mono">Join 15K+ members for early voting loops and premium asset codes.</p>
+                    <a href="#" class="text-[10px] uppercase font-black tracking-widest text-emerald-400 block pt-1 hover:underline">Link Session</a>
+                </div>
+                <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-6 rounded-2xl text-center space-y-3">
+                    <i class="fab fa-instagram text-rose-400 text-2xl"></i>
+                    <h5 class="text-sm font-black uppercase text-white">Vibe Feed</h5>
+                    <p class="text-[11px] text-slate-400 font-mono">Tag @TheProVibe to get your custom overlay setup featured inside catalogs.</p>
+                    <a href="#" class="text-[10px] uppercase font-black tracking-widest text-emerald-400 block pt-1 hover:underline">View Stream</a>
+                </div>
+                <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-6 rounded-2xl text-center space-y-3">
+                    <i class="fas fa-certificate text-amber-400 text-2xl"></i>
+                    <h5 class="text-sm font-black uppercase text-white">VIP Club</h5>
+                    <p class="text-[11px] text-slate-400 font-mono">Unlock exclusive merch vaults based on loyalty check ranks.</p>
+                    <a href="#" class="text-[10px] uppercase font-black tracking-widest text-emerald-400 block pt-1 hover:underline">Check Tier</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SUPPORT (INCIDENT FILING UNIT) -->
+        <div id="support-node" class="spa-route max-w-xl mx-auto px-6 py-12">
+            <div class="bg-slate-950/80 border border-slate-900 p-6 rounded-3xl space-y-6 click-node">
+                <div class="space-y-1">
+                    <h4 class="text-lg font-black uppercase text-white"><i class="fas fa-headset text-emerald-400 mr-2"></i> Support Dispatch Center</h4>
+                    <p class="text-xs text-slate-500 font-mono">File incident report protocols, shipping bugs, or refund handshakes.</p>
+                </div>
+                <div class="space-y-4 text-xs font-mono">
+                    <div class="space-y-1"><label class="text-[10px] font-black text-slate-400 uppercase tracking-wide">Select Issue Vector</label><select class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-white outline-none"><option>Logistics Delay Request</option><option>Payment Verification Bug</option><option>Custom Artwork Misalignment</option></select></div>
+                    <div class="space-y-1"><label class="text-[10px] font-black text-slate-400 uppercase tracking-wide">Elaborate Incident Log</label><textarea rows="3" placeholder="Provide system details, order hash, and descriptive information..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none focus:border-emerald-500"></textarea></div>
+                    <button onclick="alert('Support ticket transmitted successfully to active matrix logs.')" class="w-full bg-emerald-500 text-slate-950 font-black py-3 rounded-xl uppercase tracking-wider text-[11px]">Transmit Ticket Package</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. FAQ COMPILATION LAYER -->
+        <div id="faq-node" class="spa-route max-w-2xl mx-auto px-6 py-12 space-y-6">
+            <h3 class="text-2xl font-black text-center uppercase tracking-widest text-white">Ecosystem Core FAQ</h3>
+            <div class="space-y-3 click-node font-mono text-xs">
+                <div class="bg-slate-950/80 border border-slate-900 p-4 rounded-xl space-y-1"><h5 class="font-black text-emerald-400 uppercase">Q: What is the average logistics delivery window?</h5><p class="text-slate-400 text-[11px]">A: Processing takes 24-48 system clock cycles. Domestic delivery finishes inside 3-5 operational transit days.</p>
+                </div>
+                <div class="bg-slate-950/80 border border-slate-900 p-4 rounded-xl space-y-1"><h5 class="font-black text-emerald-400 uppercase">Q: How do I manage wash care protocols?</h5><p class="text-slate-400 text-[11px]">A: Turn apparel inside out before washing. Avoid high heat or direct iron processing over active custom artwork graphics.</p>
+                </div>
+                <div class="bg-slate-950/80 border border-slate-900 p-4 rounded-xl space-y-1"><h5 class="font-black text-emerald-400 uppercase">Q: Can I request customized background image links permanently?</h5><p class="text-slate-400 text-[11px]">A: Yes! Use the Pavan Admin Panel console block to overwrite system background memory layers via standard URL caching vectors.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. STREETWEAR METRIC SPECIFICATIONS (SIZES) -->
+        <div id="sizes-node" class="spa-route max-w-2xl mx-auto px-6 py-12 space-y-6">
+            <div class="text-center space-y-1 click-node">
+                <h3 class="text-2xl font-black uppercase text-white">Size Blueprint Matrix</h3>
+                <p class="text-xs text-slate-400 font-mono">Accurate streetwear oversized drop proportions measured in inches.</p>
+            </div>
+            <div class="bg-slate-950/90 border border-slate-900 rounded-2xl overflow-hidden font-mono text-xs click-node">
+                <table class="w-full text-left border-collapse">
+                    <thead><tr class="bg-slate-900 text-slate-400 uppercase text-[10px] font-black border-b border-slate-800"><th class="p-4">Size Tag</th><th class="p-4">Chest Width</th><th class="p-4">Apparel Length</th><th class="p-4">Sleeve Drop</th></tr></thead>
+                    <tbody class="text-slate-300 divide-y divide-slate-900">
+                        <tr class="hover:bg-slate-900/40"><td class="p-4 font-black text-emerald-400">S (Small)</td><td class="p-4">44"</td><td class="p-4">27.5"</td><td class="p-4">8.5"</td></tr>
+                        <tr class="hover:bg-slate-900/40"><td class="p-4 font-black text-emerald-400">M (Medium)</td><td class="p-4">46"</td><td class="p-4">28.5"</td><td class="p-4">9.0"</td></tr>
+                        <tr class="hover:bg-slate-900/40"><td class="p-4 font-black text-emerald-400">L (Large)</td><td class="p-4">48"</td><td class="p-4">29.5"</td><td class="p-4">9.5"</td></tr>
+                        <tr class="hover:bg-slate-900/40"><td class="p-4 font-black text-emerald-400">XL (Extra Large)</td><td class="p-4">50"</td><td class="p-4">30.5"</td><td class="p-4">10.0"</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 6. THE PRO VIBE ETHOS PROTOCOLS (ABOUT) -->
+        <div id="about-node" class="spa-route max-w-3xl mx-auto px-6 py-12 space-y-8">
+            <div class="text-center space-y-3 click-node">
+                <span class="text-[9px] bg-purple-500/10 border border-purple-500/20 text-purple-400 px-3 py-1 rounded-md font-black uppercase tracking-widest">Brand Blueprint Chronicles</span>
+                <h3 class="text-4xl font-black tracking-tight text-white uppercase">The Pro Vibe Culture</h3>
+                <p class="text-xs text-slate-400 font-mono max-w-lg mx-auto leading-relaxed">We merge luxury otaku sub-cultural blueprints with digital interface infrastructure layers.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 click-node font-mono text-xs text-slate-400 leading-relaxed">
+                <div class="bg-slate-950/60 border border-slate-900 p-5 rounded-2xl space-y-2">
+                    <h5 class="font-black text-white uppercase text-sm flex items-center gap-2"><i class="fas fa-fingerprint text-emerald-400"></i> Quality Vectors</h5>
+                    <p class="text-[11px]">All garments are tailored using premium combed cotton formats. Custom screen modifications utilize heavy density plastisol ink sets built to survive extended timeline stresses cleanly.</p>
+                </div>
+                <div class="bg-slate-950/60 border border-slate-900 p-5 rounded-2xl space-y-2">
+                    <h5 class="font-black text-white uppercase text-sm flex items-center gap-2"><i class="fas fa-network-wired text-emerald-400"></i> Cyber Ecosystem</h5>
+                    <p class="text-[11px]">This application runs on high-speed SPA rendering logic arrays. Controls are monitored via local system configurations, allowing live admin operations instantly through Pavan Module controls.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!--  GATEWAY CONTROL PANEL: THE PAVAN CONSOLE  -->
+        <!-- ========================================== -->
+        <div id="admin-panel-node" class="spa-route max-w-2xl mx-auto px-6 py-12">
+            <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-6 space-y-6 shadow-2xl click-node">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="text-xl font-black text-amber-400 uppercase tracking-widest"><i class="fas fa-terminal"></i> PAVAN CONTROL CONSOLE</h3>
+                    <button onclick="factoryResetEcosystemMemory()" class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase cursor-pointer">Reset Matrix Data</button>
+                </div>
+
+                <!-- LIVE BACKGROUND CUSTOMIZER -->
+                <div class="bg-slate-950 border border-blue-500/30 p-5 rounded-2xl space-y-4">
+                    <h4 class="text-xs font-black text-blue-400 uppercase tracking-wider"><i class="fas fa-palette mr-2"></i> Live Background Canvas Customizer</h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black tracking-wider uppercase text-slate-400 block">Select Color Wheel Picker</label>
+                            <input type="color" id="admin-solid-color-picker" value="#020617" oninput="applyCustomSystemBackground('color', this.value)" class="w-12 h-10 bg-slate-900 border border-slate-800 rounded-xl cursor-pointer">
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black tracking-wider uppercase text-slate-400 block">Preset System Gradients</label>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="applyCustomSystemBackground('gradient', 'linear-gradient(135deg, #0f172a, #020617)')" class="w-7 h-7 rounded-lg bg-gradient-to-br from-slate-800 to-slate-950 border border-slate-700"></button>
+                                <button onclick="applyCustomSystemBackground('gradient', 'linear-gradient(135deg, #1e1b4b, #020617)')" class="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-950 to-slate-950 border border-slate-700"></button>
+                                <button onclick="applyCustomSystemBackground('gradient', 'linear-gradient(135deg, #064e3b, #020617)')" class="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-950 to-slate-950 border border-slate-700"></button>
+                            </div>
                         </div>
                     </div>
-                `;
-                mainCatalogGrid.appendChild(card);
+
+                    <!-- RE-ENGINEERED WEB SAFE DUAL INPUT CONSOLE FOR IMAGE LINKS -->
+                    <div class="space-y-2 pt-2 border-t border-slate-900">
+                        <label class="text-[10px] font-black tracking-wider uppercase text-amber-400 block">
+                            <i class="fas fa-link"></i> Inject Custom Color Name, Hex Code OR Image Link (URL)
+                        </label>
+                        <div class="flex gap-2">
+                            <input type="text" id="admin-universal-bg-input" placeholder="Paste link here (e.g., https://images.unsplash.com/photo-...)" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-emerald-400 font-mono">
+                            <button onclick="processUniversalBackgroundInput()" class="bg-emerald-500 text-slate-950 font-black text-xs px-4 py-2 rounded-xl uppercase whitespace-nowrap hover:bg-emerald-400 transition">Apply Asset</button>
+                        </div>
+                        <p class="text-[9px] text-slate-500 font-mono">Note: Use reliable direct CDNs (like Unsplash, Imgur) to bypass core layout blockades safely.</p>
+                    </div>
+                </div>
+
+                <!-- ADD MANUALLY FROM LOCAL PC -->
+                <div class="bg-slate-950 border border-emerald-500/30 p-5 rounded-2xl space-y-3">
+                    <h4 class="text-xs font-black text-emerald-400 uppercase"><i class="fas fa-plus-circle"></i> Inject Custom Product From PC</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <input type="text" id="prod-name" placeholder="Product Name" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white">
+                        <input type="number" id="prod-price" placeholder="Price in ₹" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white">
+                        <select id="prod-category" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white"></select>
+                        <input type="file" id="prod-file-image" accept="image/*" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1 text-slate-400 file:bg-emerald-500 file:text-slate-950 cursor-pointer">
+                        <input type="text" id="prod-desc" placeholder="Specifications..." class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white sm:col-span-2">
+                    </div>
+                    <button onclick="processAndInjectLocalProduct()" class="w-full bg-emerald-500 text-slate-950 font-black text-xs uppercase py-2.5 rounded-xl cursor-pointer">Upload & Inject To Active Shop</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- UPI MODAL OVERLAY -->
+    <div id="upi-modal-overlay" class="fixed inset-0 bg-slate-950/95 z-[250] hidden flex items-center justify-center p-4 backdrop-blur-3xl">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-sm p-6 space-y-4">
+            <h4 class="text-xs font-black text-slate-400 text-center uppercase">NPCI Secure UPI Payment Node</h4>
+            <div class="text-center py-2"><h2 id="upi-modal-payable-amount" class="text-3xl font-black text-white">₹0</h2></div>
+            <button onclick="executeSecureUPIProcessingSequence()" class="w-full bg-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-xs uppercase tracking-widest cursor-pointer">Validate Pin Handshake</button>
+            <div id="upi-processing-beacon" class="hidden text-center text-xs text-amber-400 animate-pulse font-mono">Syncing payment confirmation packets...</div>
+        </div>
+    </div>
+
+    <!-- INVOICE MODAL -->
+    <div id="invoice-modal-overlay" class="fixed inset-0 bg-slate-950/95 z-[300] hidden flex items-center justify-center p-4 backdrop-blur-2xl">
+        <div class="bg-slate-900 border border-emerald-500/20 rounded-3xl w-full max-w-sm p-6 text-center space-y-4">
+            <h3 class="text-sm font-black uppercase text-white">Transaction Settled Successfully</h3>
+            <div class="bg-slate-950 p-4 rounded-xl text-left font-mono text-[11px] text-slate-400 space-y-1">
+                <div class="flex justify-between"><span>Total Paid:</span><span id="invoice-amount-label" class="text-emerald-400 font-black">₹0</span></div>
+                <div class="flex justify-between"><span>Hash Token:</span><span id="invoice-hash-label">TXN-0000</span></div>
+            </div>
+            <button onclick="flushBasketStateAndReturn()" class="text-xs text-slate-500 font-bold underline block mx-auto cursor-pointer">Clear Allocation</button>
+        </div>
+    </div>
+
+    <footer class="bg-slate-950/40 border-t border-slate-900 px-6 py-4 text-center text-[10px] text-slate-600 mt-auto dom-content-matrix">
+        <p>&copy; 2026 THE PRO VIBE NETWORKS INC.</p>
+    </footer>
+
+    <script>
+        const MASTER_ADMIN_KEY = "pavan";
+        const DEFAULT_CATEGORIES = ["Oversized Streetwear", "Premium Anime Hoodies", "Otaku Accessories Collection"];
+        
+        const DEFAULT_CATALOG = [
+            { id: 1, hubLabel: "Oversized Streetwear", name: "Cyber Tokyo Overdrive Tee", price: 1299, desc: "260 GSM heavy luxury drop-shoulder design with dual neon accents.", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80" },
+            { id: 5, hubLabel: "Premium Anime Hoodies", name: "Gojo Domain Infinite Hoodie", price: 2799, desc: "Infinite Void vector arts back-print heavy fleece design fabric.", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80" }
+        ];
+
+        let productionCategoriesList = JSON.parse(localStorage.getItem('pavan_categories')) || [...DEFAULT_CATEGORIES];
+        let baseProductCatalogData = JSON.parse(localStorage.getItem('pavan_catalog')) || [...DEFAULT_CATALOG];
+        let mutationsActiveCatalog = [...baseProductCatalogData];
+        let stateGlobalCartMemory = [];
+        let globalProcessedOrdersDatabase = JSON.parse(localStorage.getItem('pavan_orders_db')) || [];
+        let internalNavigationHistoryTrackerStack = ['home-node'];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeProductionWebGLStage();
+            syncAdminCategoryDropdown();
+            recompileStorefrontCatalogueDisplayGrid();
+            recompileInterspersedRouteLanes();
+            loadPersistedSystemTheme();
+        });
+
+        function applyCustomSystemBackground(type, value) {
+            const bodyNode = document.getElementById('master-body-node');
+            const overlayNode = document.getElementById('global-gradient-overlay');
+            if (!bodyNode) return;
+
+            if (type === 'color') {
+                bodyNode.style.backgroundImage = 'none';
+                bodyNode.style.backgroundColor = value;
+                if (overlayNode) overlayNode.style.opacity = "1";
+                localStorage.setItem('pavan_theme_config', JSON.stringify({ type: 'color', value }));
+            } else if (type === 'gradient') {
+                bodyNode.style.backgroundColor = "transparent";
+                bodyNode.style.backgroundImage = value;
+                if (overlayNode) overlayNode.style.opacity = "1";
+                localStorage.setItem('pavan_theme_config', JSON.stringify({ type: 'gradient', value }));
+            } else if (type === 'image') {
+                bodyNode.style.backgroundColor = "transparent";
+                bodyNode.style.backgroundImage = `url('${value}')`;
+                if (overlayNode) overlayNode.style.opacity = "0.2";
+                localStorage.setItem('pavan_theme_config', JSON.stringify({ type: 'image', value }));
+            }
+        }
+
+        function processUniversalBackgroundInput() {
+            const inputVal = document.getElementById('admin-universal-bg-input').value.trim();
+            if(!inputVal) return alert("Please input background instructions.");
+
+            if (inputVal.startsWith('http://') || inputVal.startsWith('https://') || inputVal.startsWith('data:image')) {
+                applyCustomSystemBackground('image', inputVal);
+            } else {
+                applyCustomSystemBackground('color', inputVal);
+            }
+        }
+
+        function loadPersistedSystemTheme() {
+            const saveState = JSON.parse(localStorage.getItem('pavan_theme_config'));
+            if (saveState) {
+                applyCustomSystemBackground(saveState.type, saveState.value);
+                const universalInput = document.getElementById('admin-universal-bg-input');
+                if (universalInput && saveState.type === 'image') {
+                    universalInput.value = saveState.value;
+                }
+            }
+        }
+
+        function navigateToRoute(targetNodeID) {
+            const currentActiveNode = internalNavigationHistoryTrackerStack[internalNavigationHistoryTrackerStack.length - 1];
+            if (currentActiveNode !== targetNodeID) internalNavigationHistoryTrackerStack.push(targetNodeID);
+            executeDOMSwitchToRouteNode(targetNodeID);
+        }
+
+        function executeRouteBackwardsTransition() {
+            if (internalNavigationHistoryTrackerStack.length > 1) {
+                internalNavigationHistoryTrackerStack.pop();
+                const fallbackNodeTargetID = internalNavigationHistoryTrackerStack[internalNavigationHistoryTrackerStack.length - 1];
+                executeDOMSwitchToRouteNode(fallbackNodeTargetID);
+            } else {
+                executeDOMSwitchToRouteNode('home-node');
+            }
+        }
+
+        function executeDOMSwitchToRouteNode(targetNodeID) {
+            document.querySelectorAll('.spa-route').forEach(el => el.classList.remove('active-route'));
+            const targetElement = document.getElementById(targetNodeID);
+            if (targetElement) targetElement.classList.add('active-route');
+            
+            document.querySelectorAll('nav button').forEach(btn => btn.className = "px-3 py-1.5 rounded-xl transition text-slate-400 hover:text-white cursor-pointer");
+            const navBtn = document.getElementById(`btn-nav-${targetNodeID}`);
+            if (navBtn) navBtn.className = "px-3 py-1.5 rounded-xl transition text-emerald-400 bg-slate-950 border border-slate-800 cursor-pointer";
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function triggerProductDetailsPipeline(productId) {
+            const selectedProduct = baseProductCatalogData.find(p => p.id === productId);
+            if (!selectedProduct) return;
+
+            document.getElementById('detail-pane-image').src = selectedProduct.img;
+            document.getElementById('detail-pane-tag').innerText = selectedProduct.hubLabel;
+            document.getElementById('detail-pane-title').innerText = selectedProduct.name;
+            document.getElementById('detail-pane-price').innerText = `₹${selectedProduct.price}`;
+            document.getElementById('detail-pane-desc').innerText = selectedProduct.desc;
+
+            const actionBox = document.getElementById('detail-pane-action-box');
+            actionBox.innerHTML = `
+                <button onclick="appendProductToBasketAllocation(${selectedProduct.id})" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-4 rounded-xl text-xs uppercase tracking-widest transition cursor-pointer">
+                    Add to Basket
+                </button>`;
+            navigateToRoute('product-details-node');
+        }
+
+        function appendProductToBasketAllocation(id) {
+            let core = baseProductCatalogData.find(x => x.id === id);
+            let check = stateGlobalCartMemory.find(x => x.id === id);
+            if (check) check.quantity++; else stateGlobalCartMemory.push({ ...core, quantity: 1 });
+            document.getElementById('global-cart-counter').innerText = stateGlobalCartMemory.reduce((a, c) => a + c.quantity, 0);
+            recompileBasketDisplayViewport();
+            alert(`${core.name} added.`);
+        }
+
+        function executeClientSideSearch(val) {
+            let processed = val.toLowerCase().trim();
+            mutationsActiveCatalog = processed === "" ? [...baseProductCatalogData] : baseProductCatalogData.filter(p => p.name.toLowerCase().includes(processed));
+            recompileStorefrontCatalogueDisplayGrid();
+        }
+
+        function invokeAdminGate() {
+            let entryPhrase = prompt("Provide Authorized System Passphrase:");
+            if (entryPhrase === MASTER_ADMIN_KEY) navigateToRoute('admin-panel-node'); 
+            else alert("Authorization failure.");
+        }
+
+        function syncAdminCategoryDropdown() {
+            const dropdown = document.getElementById('prod-category'); if(!dropdown) return;
+            dropdown.innerHTML = ""; productionCategoriesList.forEach(c => dropdown.innerHTML += `<option value="${c}">${c}</option>`);
+        }
+
+        function processAndInjectLocalProduct() {
+            const name = document.getElementById('prod-name').value.trim();
+            const price = parseInt(document.getElementById('prod-price').value);
+            const category = document.getElementById('prod-category').value;
+            const desc = document.getElementById('prod-desc').value.trim();
+            const fileInput = document.getElementById('prod-file-image');
+
+            if(!name || !price || !desc || !fileInput.files[0]) return alert("All fields are mandatory.");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                baseProductCatalogData.push({ id: baseProductCatalogData.length + 1, hubLabel: category, name, price, desc, img: e.target.result });
+                mutationsActiveCatalog = [...baseProductCatalogData];
+                localStorage.setItem('pavan_catalog', JSON.stringify(baseProductCatalogData));
+                recompileStorefrontCatalogueDisplayGrid();
+                recompileInterspersedRouteLanes();
+                alert("Product saved.");
+                navigateToRoute('shop-node');
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+
+        function recompileStorefrontCatalogueDisplayGrid() {
+            const target = document.getElementById('shop-shelves-injection-point'); if(!target) return;
+            target.innerHTML = "";
+            productionCategoriesList.forEach(categoryKey => {
+                let segmentFilteredItems = mutationsActiveCatalog.filter(p => p.hubLabel === categoryKey);
+                let sectionMarkup = `<section class="bg-slate-950/40 p-6 border border-slate-900/60 rounded-3xl space-y-4"><h4 class="text-xs font-black uppercase text-emerald-400 tracking-widest">${categoryKey}</h4><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">`;
+                segmentFilteredItems.forEach(product => {
+                    sectionMarkup += `
+                        <div class="interactive-card bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden flex flex-col justify-between p-3" onclick="triggerProductDetailsPipeline(${product.id})">
+                            <img src="${product.img}" class="h-40 w-full object-cover rounded-xl">
+                            <div class="mt-3 space-y-2">
+                                <h5 class="text-xs font-black text-white uppercase truncate">${product.name}</h5>
+                                <div class="flex justify-between items-center pt-2 border-t border-slate-900">
+                                    <span class="text-xs font-mono font-black text-emerald-400">₹${product.price}</span>
+                                    <button onclick="event.stopPropagation(); appendProductToBasketAllocation(${product.id})" class="bg-slate-900 hover:bg-slate-800 text-[9px] font-black uppercase px-3 py-1.5 rounded-lg text-slate-200 border border-slate-800 cursor-pointer">Add</button>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+                sectionMarkup += `</div></section>`; target.innerHTML += sectionMarkup;
             });
         }
 
-        function addToCartTrigger() {
-            cartCount++;
-            cartCounterBadge.textContent = cartCount;
-            alert("Product synchronized to virtual cart buffer successfully!");
+        function recompileInterspersedRouteLanes() {
+            const catTarget = document.getElementById('categories-grid-container'); if(catTarget) {
+                catTarget.innerHTML = ""; productionCategoriesList.forEach(c => catTarget.innerHTML += `<div onclick="navigateToRoute('shop-node')" class="bg-slate-950/80 border border-slate-900 p-6 rounded-2xl font-black text-xs text-slate-400 uppercase tracking-widest text-center cursor-pointer hover:border-emerald-400 transition">${c}</div>`);
+            }
+            const bLane = document.getElementById('bestsellers-lane'); if(bLane) {
+                bLane.innerHTML = ""; baseProductCatalogData.slice(0, 4).forEach(p => bLane.innerHTML += `<div onclick="triggerProductDetailsPipeline(${p.id})" class="bg-slate-950 p-4 rounded-2xl border border-slate-900 flex justify-between items-center text-xs cursor-pointer"><p class="font-black text-white">${p.name}</p><span class="text-emerald-400 font-mono">₹${p.price}</span></div>`);
+            }
+            const nLane = document.getElementById('newdrops-lane'); if(nLane) {
+                nLane.innerHTML = ""; baseProductCatalogData.slice(0, 2).forEach(p => nLane.innerHTML += `<div onclick="triggerProductDetailsPipeline(${p.id})" class="bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden text-xs cursor-pointer"><img src="${p.img}" class="h-32 w-full object-cover"><div class="p-3 font-black"><p class="text-white">${p.name}</p></div></div>`);
+            }
         }
 
-        // --- SIDEBARS TOGGLE LOGIC ---
-        menuTriggerBtn.addEventListener('click', () => {
-            leftSidebar.classList.add('active');
-        });
+        function recompileBasketDisplayViewport() {
+            const view = document.getElementById('cart-node-viewport'); if(!view) return;
+            view.innerHTML = ""; let sum = 0;
+            stateGlobalCartMemory.forEach(item => {
+                sum += (item.price * item.quantity);
+                view.innerHTML += `<div class="flex justify-between items-center text-xs bg-slate-900 p-3 rounded-xl border border-slate-800"><p class="font-black text-white">${item.name} (${item.quantity})</p><span class="text-emerald-400 font-mono">₹${item.price * item.quantity}</span></div>`;
+            });
+            document.getElementById('cart-total-label').innerText = '₹' + sum;
+        }
 
-        closeNavSidebar.addEventListener('click', () => {
-            leftSidebar.classList.remove('active');
-        });
+        function triggerUPIModalFlow() {
+            if(stateGlobalCartMemory.length === 0) return alert("Cart is empty.");
+            document.getElementById('upi-modal-payable-amount').innerText = document.getElementById('cart-total-label').innerText;
+            document.getElementById('upi-modal-overlay').classList.remove('hidden');
+        }
 
-        triggerPavanPanelBtn.addEventListener('click', () => {
-            leftSidebar.classList.remove('active');
-            const accessKey = prompt("ENTER PAVAN PANEL ENCRYPTION ACCESS KEY:");
-            if (accessKey === 'pavan') {
-                pavanAdminPanel.classList.add('active');
-            } else {
-                alert("ACCESS DENIED: INVALID SYSTEM ENCRYPTION KEY!");
+        function executeSecureUPIProcessingSequence() {
+            document.getElementById('upi-processing-beacon').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('upi-modal-overlay').classList.add('hidden');
+                document.getElementById('upi-processing-beacon').classList.add('hidden');
+                const generatedTxnToken = `TXN-NPCI-${Math.floor(100000 + Math.random() * 900000)}`;
+                document.getElementById('invoice-amount-label').innerText = document.getElementById('cart-total-label').innerText;
+                document.getElementById('invoice-hash-label').innerText = generatedTxnToken;
+                document.getElementById('invoice-modal-overlay').classList.remove('hidden');
+            }, 1000);
+        }
+
+        function flushBasketStateAndReturn() {
+            stateGlobalCartMemory = []; document.getElementById('global-cart-counter').innerText = "0";
+            recompileBasketDisplayViewport(); document.getElementById('invoice-modal-overlay').classList.add('hidden');
+            navigateToRoute('home-node');
+        }
+
+        function factoryResetEcosystemMemory() {
+            if(confirm("Restore defaults?")) { localStorage.clear(); location.reload(); }
+        }
+
+        function initializeProductionWebGLStage() {
+            const stageBox = document.getElementById('global-webgl-physics-canvas'); if(!stageBox) return;
+            const w = window.innerWidth, h = window.innerHeight;
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000); camera.position.z = 5.5;
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); renderer.setSize(w, h);
+            stageBox.appendChild(renderer.domElement);
+            
+            const geometry = new THREE.IcosahedronGeometry(1.8, 2);
+            const material = new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.12 });
+            const sphere = new THREE.Mesh(geometry, material); scene.add(sphere);
+
+            function animate() {
+                requestAnimationFrame(animate);
+                sphere.rotation.x += 0.001; sphere.rotation.y += 0.0015;
+                renderer.render(scene, camera);
             }
-        });
-
-        closePavanAdminBtn.addEventListener('click', () => {
-            pavanAdminPanel.classList.remove('active');
-        });
-
-        // --- PRODUCT INJECTION LOGIC ---
-        const executeBtn = document.getElementById('execute-injection-btn');
-        executeBtn.addEventListener('click', () => {
-            const hub = document.getElementById('inj-hub').value;
-            const name = document.getElementById('inj-name').value.trim();
-            const price = document.getElementById('inj-price').value.trim();
-            const desc = document.getElementById('inj-desc').value.trim();
-            const fileInput = document.getElementById('inj-img-file');
-            const urlInput = document.getElementById('inj-img-url').value.trim();
-
-            if (!name || !price) {
-                alert("Failed: Product Name & Price are critical system requirements!");
-                return;
-            }
-
-            let finalImg = "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=800";
-
-            const completeInjection = () => {
-                const newProduct = {
-                    id: Date.now(),
-                    hubLabel: hub,
-                    name: name,
-                    price: parseInt(price),
-                    desc: desc,
-                    img: finalImg
-                };
-
-                catalogData.unshift(newProduct);
-                localStorage.setItem('pavan_custom_catalog', JSON.stringify(catalogData));
-                renderCatalog();
-                
-                document.getElementById('inj-name').value = '';
-                document.getElementById('inj-price').value = '';
-                document.getElementById('inj-desc').value = '';
-                fileInput.value = '';
-                document.getElementById('inj-img-url').value = '';
-                
-                pavanAdminPanel.classList.remove('active');
-                alert("SUCCESS: New custom product injected into primary catalog array!");
-            };
-
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    finalImg = e.target.result;
-                    completeInjection();
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                if (urlInput) finalImg = urlInput;
-                completeInjection();
-            }
-        });
-
-        window.addEventListener('DOMContentLoaded', initDatabase);
+            animate();
+            
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
     </script>
 </body>
 </html>
