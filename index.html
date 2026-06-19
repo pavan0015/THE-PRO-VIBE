@@ -73,7 +73,7 @@
         </div>
     </header>
 
-    <!-- Sidebar Navigation Drawer (All 9 Pages Included Here) -->
+    <!-- Sidebar Navigation Drawer -->
     <div id="sidebar-drawer-backdrop-mask" onclick="toggleNavigationDrawerState(false)" class="fixed inset-0 bg-slate-950/70 z-[190] hidden backdrop-blur-sm transition-all"></div>
     <aside id="sidebar-navigation-drawer" class="fixed top-0 left-0 bottom-0 w-64 bg-slate-950 border-r border-slate-900 z-[200] transform -translate-x-full transition-transform duration-300 ease-in-out p-5 flex flex-col justify-between">
         <div class="space-y-4 overflow-y-auto max-h-[85vh] pr-1">
@@ -99,7 +99,7 @@
     </aside>
 
     <!-- Main Content Stream Area -->
-    <main class="flex-1 px-4 md:px-8 py-6 z-10">
+    <main class="flex-1 px-3 md:px-8 py-6 z-10">
         <div class="max-w-7xl mx-auto mb-4">
             <button onclick="executeRouteBackwardsTransition()" class="bg-slate-900 hover:bg-slate-850 border border-slate-850 text-slate-400 hover:text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition cursor-pointer flex items-center gap-2">
                 <i class="fas fa-arrow-left-long"></i> Back Matrix Node
@@ -161,29 +161,37 @@
             </div>
         </div>
 
-        <!-- 2. SHOP MODULE STREAM -->
+        <!-- 2. SHOP MODULE STREAM (Mobile Friendly 2 Columns Grid) -->
         <div id="shop-node" class="spa-route max-w-7xl mx-auto py-6 space-y-8">
             <div id="shop-shelves-injection-point" class="space-y-12"></div>
         </div>
 
-        <!-- 3. PRODUCT DETAILS VIEW -->
-        <div id="product-details-node" class="spa-route max-w-5xl mx-auto py-6">
+        <!-- 3. PRODUCT DETAILS VIEW + RELATED PRODUCTS INJECTED BELOW -->
+        <div id="product-details-node" class="spa-route max-w-5xl mx-auto py-6 space-y-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-950/60 border border-slate-900 p-4 rounded-3xl backdrop-blur-md">
-                <img id="detail-pane-image" class="w-full h-[400px] object-cover rounded-2xl bg-slate-900">
-                <div class="space-y-4 text-left p-2">
-                    <span id="detail-pane-tag" class="text-purple-400 text-[10px] font-mono uppercase tracking-widest bg-purple-500/10 border border-purple-500/20 px-2 py-1 rounded-md"></span>
-                    <h2 id="detail-pane-title" class="text-2xl font-black text-white uppercase tracking-tight"></h2>
-                    <p id="detail-pane-price" class="text-xl font-mono text-emerald-400 font-black"></p>
-                    <hr class="border-slate-900">
-                    <p id="detail-pane-desc" class="text-xs text-slate-400 font-mono leading-relaxed"></p>
+                <img id="detail-pane-image" class="w-full h-[350px] md:h-[400px] object-cover rounded-2xl bg-slate-900">
+                <div class="space-y-4 text-left p-2 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <span id="detail-pane-tag" class="text-purple-400 text-[10px] font-mono uppercase tracking-widest bg-purple-500/10 border border-purple-500/20 px-2 py-1 rounded-md inline-block"></span>
+                        <h2 id="detail-pane-title" class="text-2xl font-black text-white uppercase tracking-tight"></h2>
+                        <p id="detail-pane-price" class="text-xl font-mono text-emerald-400 font-black"></p>
+                        <hr class="border-slate-900">
+                        <p id="detail-pane-desc" class="text-xs text-slate-400 font-mono leading-relaxed"></p>
+                    </div>
                     <div id="detail-pane-action-box" class="pt-4"></div>
                 </div>
             </div>
+
+            <!-- Dynamic Related Products Block Injected Directly Below Details -->
+            <div class="space-y-4">
+                <h3 class="text-xs font-black tracking-widest text-slate-400 uppercase border-l-2 border-purple-500 pl-3 text-left">Explore More Products</h3>
+                <div id="related-products-injection-point" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"></div>
+            </div>
         </div>
 
-        <!-- 4. CART BAG VIEW (🔥 UPDATED WITH ULTIMATE REAL PAYMENT INTERFACE) -->
+        <!-- 4. CART BAG VIEW -->
         <div id="cart-node" class="spa-route max-w-xl mx-auto py-8">
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-5 shadow-2xl backdrop-blur-md">
+            <div class="bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-3xl space-y-5 shadow-2xl backdrop-blur-md">
                 <h3 class="text-sm font-black uppercase text-white tracking-wider border-b border-slate-800 pb-2 flex justify-between">
                     <span>Secure Checkout Gateway</span>
                     <i class="fas fa-lock text-emerald-400"></i>
@@ -210,7 +218,6 @@
                     <div id="panel-upi-input" class="space-y-3 pt-2 text-left">
                         <div class="bg-slate-900 border border-slate-850 p-3 rounded-xl flex flex-col items-center justify-center gap-2 text-center">
                             <div class="bg-white p-2 rounded-lg inline-block">
-                                <!-- Real Look Mock QR Code -->
                                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=upi://pay?pa=pavan@upi" class="w-28 h-28" alt="Scan QR">
                             </div>
                             <p class="text-[10px] text-slate-400 font-mono"><i class="fas fa-camera text-emerald-400 mr-1"></i> Scan QR code using any UPI App</p>
@@ -225,7 +232,7 @@
                         </div>
                     </div>
 
-                    <!-- Genuine NetBanking Portal Layout with Pop Banks Buttons -->
+                    <!-- Genuine NetBanking Portal Layout -->
                     <div id="panel-netbank-input" class="space-y-3 pt-2 text-left hidden">
                         <label class="text-[9px] font-mono text-slate-400 uppercase font-black">Popular Banks</label>
                         <div class="grid grid-cols-2 gap-2">
@@ -330,7 +337,7 @@
             </p>
         </div>
 
-        <!-- 11. PAVAN CONTROL CONSOLE (ADMIN CONTROL SUITE) -->
+        <!-- 11. PAVAN CONTROL CONSOLE -->
         <div id="admin-panel-node" class="spa-route max-w-2xl mx-auto py-8">
             <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-6 space-y-6 shadow-2xl backdrop-blur-md">
                 <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -338,7 +345,7 @@
                     <span class="text-[9px] bg-amber-500/10 border border-amber-500/30 text-amber-400 px-2.5 py-0.5 rounded-full font-mono font-black uppercase">Root Operator Suite</span>
                 </div>
 
-                <!-- Feature: Custom Themes Background -->
+                <!-- Theme Customizer -->
                 <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3 text-left">
                     <h4 class="text-xs font-black text-emerald-400 uppercase flex items-center gap-2"><i class="fas fa-palette"></i> Grid Theme Matrix Color Customizer</h4>
                     <div class="flex items-center gap-4 bg-slate-900 p-3 rounded-xl border border-slate-850">
@@ -350,16 +357,16 @@
                     </div>
                 </div>
 
-                <!-- Feature: Category Section Appender -->
+                <!-- Category Section -->
                 <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3 text-left">
                     <h4 class="text-xs font-black text-blue-400 uppercase flex items-center gap-2"><i class="fas fa-folder-plus"></i> Inject New Category Mapping Section</h4>
                     <div class="flex gap-2">
-                        <input type="text" id="new-section-name" placeholder="e.g., Winter Overcoats, Cyber Accessories" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs outline-none text-white focus:border-blue-500 font-mono">
+                        <input type="text" id="new-section-name" placeholder="e.g., Winter Overcoats" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs outline-none text-white focus:border-blue-500 font-mono">
                         <button onclick="addNewCustomSection()" class="bg-blue-500 hover:bg-blue-400 text-white text-xs font-black px-5 rounded-xl cursor-pointer transition whitespace-nowrap">Add Map</button>
                     </div>
                 </div>
 
-                <!-- Feature: Product Matrix Multi-uploader Injection Pipeline -->
+                <!-- Product Multi-uploader Pipeline -->
                 <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-4 text-left">
                     <h4 class="text-xs font-black text-purple-400 uppercase flex items-center gap-2"><i class="fas fa-box-open"></i> Deploy New Streetwear Product Drop</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -395,7 +402,7 @@
 
                         <div class="space-y-1 md:col-span-2">
                             <label class="text-[9px] text-slate-400 font-mono uppercase">Description Specifications Matrix</label>
-                            <textarea id="pavan-product-desc" rows="2" placeholder="Ultra Heavyweight loop cotton build premium design architecture spec..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none font-mono resize-none focus:border-purple-500"></textarea>
+                            <textarea id="pavan-product-desc" rows="2" placeholder="Ultra Heavyweight build premium architecture spec..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none font-mono resize-none focus:border-purple-500"></textarea>
                         </div>
                     </div>
                     <button onclick="executePavanProductInsertionPipeline()" class="w-full bg-purple-600 hover:bg-purple-500 text-white text-xs font-black py-3 rounded-xl tracking-widest uppercase transition cursor-pointer shadow-lg shadow-purple-600/20">Inject Dynamic Drop Product Into Live Stream</button>
@@ -404,7 +411,7 @@
         </div>
     </main>
 
-    <!-- UPI/Netbank Simulation PIN Authentication Modal overlay Matrix -->
+    <!-- Simulation PIN Authentication Modal overlay Matrix -->
     <div id="upi-modal-overlay" class="fixed inset-0 bg-slate-950/95 z-[250] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center space-y-4 max-w-sm w-full shadow-2xl">
             <div class="w-12 h-12 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-lg"><i class="fas fa-shield-halved animate-pulse"></i></div>
@@ -423,7 +430,7 @@
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center space-y-4 max-w-sm w-full shadow-2xl">
             <div class="w-12 h-12 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full flex items-center justify-center mx-auto text-lg"><i class="fas fa-circle-check"></i></div>
             <h3 class="text-white font-black uppercase tracking-wider text-sm">Payment Processed Successfully</h3>
-            <p class="text-[11px] text-slate-400 font-mono">Dynamic Node Packet Registry Created! Copy the tracking reference identifier code below inside 'Track Order' to follow package deployment updates.</p>
+            <p class="text-[11px] text-slate-400 font-mono">Dynamic Node Packet Registry Created! Copy tracking reference identifier inside 'Track Order'.</p>
             <div class="bg-slate-950 border border-slate-850 p-3 rounded-xl font-mono text-xs text-amber-400 font-black tracking-widest select-all" id="generated-ref-id-lbl">TXN-000000</div>
             <button onclick="flushBasketStateAndReturn()" class="w-full bg-blue-500 hover:bg-blue-400 py-3 rounded-xl text-xs font-black text-white uppercase tracking-wider cursor-pointer transition">Close Invoice & Reset Stream</button>
         </div>
@@ -436,7 +443,6 @@
 
     <!-- LOGICAL CONTROLLER MATRIX SCRIPT -->
     <script>
-        // Real EmailJS Matrix Connection Keys Initialization
         (function() { emailjs.init("udvSE71GxXR1G95Tq"); })();
 
         let systemMasterAdminKey = localStorage.getItem('pavan_admin_key') || "pavan";
@@ -488,7 +494,6 @@
             }
         }
 
-        // Router Single Page Network Engine
         function navigateToRoute(routeId) {
             const activeRoutes = document.querySelectorAll('.spa-route');
             activeRoutes.forEach(route => route.classList.remove('active-route'));
@@ -519,7 +524,6 @@
             }
         }
 
-        // Interface Auth Toggler
         function switchHomeAuthView(mode) {
             const loginForm = document.getElementById('home-form-login');
             const registerForm = document.getElementById('home-form-register');
@@ -547,38 +551,37 @@
             navigateToRoute('shop-node');
         }
 
-        // EmailJS Variables Matching
         function invokeAdminGate() {
             let newAdminSessionToken = "ADM-" + Math.floor(100000 + Math.random() * 900000);
             localStorage.setItem('pavan_admin_key', newAdminSessionToken);
             systemMasterAdminKey = newAdminSessionToken;
 
-            alert("🔄 Security System Activated: Key token generated and syncing with your Exact Template variables...");
+            alert("🔄 Security System Activated: Key token generated...");
 
             const adminEmailPayload = {
                 security_token_key: newAdminSessionToken, 
-                error_log: "No active errors detected. System layer status clean.",
+                error_log: "No active errors detected.",
                 generation_timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-                system_attachments_meta: "Pavan Control Console Root Layer Secure Auth Node Entry Mode",
+                system_attachments_meta: "Pavan Control Console Root Layer",
                 to_email: document.getElementById('home-login-email').value || "pavan@pro-vibe-eco.in"
             };
 
             emailjs.send(targetServiceId, targetTemplateId, adminEmailPayload)
-                .then(() => console.log("Admin routing variables mapped perfectly and sent!"))
+                .then(() => console.log("Admin routing variables mapped perfectly!"))
                 .catch((err) => console.error("EmailJS Sync Interrupt Error: ", err));
 
             setTimeout(() => {
-                const accessKey = prompt("Enter the fresh Dynamic Administrator Token sent to your email (Format: ADM-XXXXXX):");
+                const accessKey = prompt("Enter the fresh Dynamic Administrator Token (Format: ADM-XXXXXX):");
                 if(accessKey === systemMasterAdminKey) {
-                    alert("🔓 Access Granted. Terminal unlocked. Welcome back, Pavan.");
+                    alert("🔓 Access Granted. Terminal unlocked.");
                     navigateToRoute('admin-panel-node');
                 } else {
-                    alert("❌ Security Violation: Invalid Token. Entry Denied.");
+                    alert("❌ Security Violation: Invalid Token.");
                 }
             }, 400);
         }
 
-        // Render Dynamic Catalog Storefront Grid
+        // Render Storefront Layout Grid (Mobile 2 columns optimized)
         function recompileStorefrontCatalogueDisplayGrid() {
             const viewPoint = document.getElementById('shop-shelves-injection-point');
             if(!viewPoint) return;
@@ -592,25 +595,25 @@
                 categorySection.className = "space-y-4";
                 categorySection.innerHTML = `
                     <h3 class="text-xs font-black tracking-widest text-slate-400 uppercase border-l-2 border-emerald-500 pl-3 text-left">${category}</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"></div>
                 `;
 
                 const gridContainer = categorySection.querySelector('.grid');
                 categoryProducts.forEach(product => {
                     const itemCard = document.createElement('div');
-                    itemCard.className = "bg-slate-950/40 border border-slate-900 rounded-2xl overflow-hidden interactive-card p-3 flex flex-col justify-between";
+                    itemCard.className = "bg-slate-950/40 border border-slate-900 rounded-2xl overflow-hidden interactive-card p-2 md:p-3 flex flex-col justify-between";
                     itemCard.innerHTML = `
-                        <div onclick="injectProductDetailedPaneView(${product.id})" class="cursor-pointer space-y-3">
-                            <img src="${product.img}" alt="${product.name}" class="w-full h-48 object-cover rounded-xl bg-slate-900">
-                            <div class="space-y-1 text-left">
-                                <span class="text-[9px] font-mono text-emerald-400 uppercase tracking-widest">${product.hubLabel}</span>
-                                <h4 class="text-sm font-black text-white tracking-tight truncate">${product.name}</h4>
-                                <p class="text-[11px] text-slate-400 line-clamp-2 font-mono">${product.desc}</p>
+                        <div onclick="injectProductDetailedPaneView(${product.id})" class="cursor-pointer space-y-2">
+                            <img src="${product.img}" alt="${product.name}" class="w-full h-32 md:h-48 object-cover rounded-xl bg-slate-900">
+                            <div class="space-y-0.5 text-left">
+                                <span class="text-[8px] md:text-[9px] font-mono text-emerald-400 uppercase tracking-widest">${product.hubLabel}</span>
+                                <h4 class="text-xs md:text-sm font-black text-white tracking-tight truncate">${product.name}</h4>
+                                <p class="text-[10px] md:text-[11px] text-slate-400 line-clamp-1 font-mono">${product.desc}</p>
                             </div>
                         </div>
-                        <div class="flex justify-between items-center pt-3 mt-3 border-t border-slate-900/60">
+                        <div class="flex justify-between items-center pt-2 mt-2 border-t border-slate-900/60">
                             <span class="font-mono text-xs font-black text-emerald-400">₹${product.price}</span>
-                            <button onclick="appendProductToBasketStack(${product.id})" class="bg-slate-900 hover:bg-emerald-500 hover:text-slate-950 border border-slate-800 text-slate-200 text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider transition cursor-pointer">Add To Bag</button>
+                            <button onclick="appendProductToBasketStack(${product.id})" class="bg-slate-900 hover:bg-emerald-500 hover:text-slate-950 border border-slate-800 text-slate-200 text-[9px] md:text-[10px] font-black px-2 py-1 md:px-3 md:py-1.5 rounded-lg uppercase tracking-wider transition cursor-pointer">Add</button>
                         </div>
                     `;
                     gridContainer.appendChild(itemCard);
@@ -619,6 +622,7 @@
             });
         }
 
+        // Product Details Implementation with Integrated Related Shelf Matrix Below (Mobile Columns Sync)
         function injectProductDetailedPaneView(productId) {
             const product = mutationsActiveCatalog.find(p => p.id === productId);
             if(!product) return;
@@ -632,10 +636,34 @@
             document.getElementById('detail-pane-action-box').innerHTML = `
                 <button onclick="appendProductToBasketStack(${product.id})" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black py-3 rounded-xl uppercase tracking-widest transition cursor-pointer">Add Matrix Item To Bag</button>
             `;
+
+            // Compile Related Items Stream Under Product Info
+            const relatedShelf = document.getElementById('related-products-injection-point');
+            if(relatedShelf) {
+                relatedShelf.innerHTML = '';
+                // Filter items excluding active id view token
+                const remainingPool = mutationsActiveCatalog.filter(p => p.id !== productId);
+                
+                remainingPool.forEach(item => {
+                    const shelfCard = document.createElement('div');
+                    shelfCard.className = "bg-slate-950/40 border border-slate-900 rounded-2xl overflow-hidden interactive-card p-2 md:p-3 flex flex-col justify-between";
+                    shelfCard.innerHTML = `
+                        <div onclick="injectProductDetailedPaneView(${item.id})" class="cursor-pointer space-y-2">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-28 md:h-36 object-cover rounded-xl bg-slate-900">
+                            <div class="space-y-0.5 text-left">
+                                <h4 class="text-xs font-black text-white tracking-tight truncate">${item.name}</h4>
+                                <span class="font-mono text-[10px] text-emerald-400 font-black">₹${item.price}</span>
+                            </div>
+                        </div>
+                        <button onclick="appendProductToBasketStack(${item.id})" class="mt-2 w-full bg-slate-900 hover:bg-emerald-400 hover:text-slate-950 border border-slate-800 text-slate-200 text-[9px] font-black py-1 rounded-lg uppercase transition cursor-pointer">Add to Bag</button>
+                    `;
+                    relatedShelf.appendChild(shelfCard);
+                });
+            }
+
             navigateToRoute('product-details-node');
         }
 
-        // Cart Architecture System Logic
         function appendProductToBasketStack(productId) {
             const targetProduct = mutationsActiveCatalog.find(p => p.id === productId);
             if(!targetProduct) return;
@@ -658,7 +686,7 @@
             let totalSum = 0;
 
             if(stateGlobalCartMemory.length === 0) {
-                container.innerHTML = `<p class="text-center font-mono text-[11px] text-slate-500 py-6">Bag stream is totally empty. Core matrix dry.</p>`;
+                container.innerHTML = `<p class="text-center font-mono text-[11px] text-slate-500 py-6">Bag stream is totally empty.</p>`;
             } else {
                 stateGlobalCartMemory.forEach((item, index) => {
                     totalSum += item.price;
@@ -668,7 +696,7 @@
                         <div class="flex items-center gap-3">
                             <img src="${item.img}" class="w-10 h-10 object-cover rounded-md bg-slate-900">
                             <div class="text-left">
-                                <h4 class="text-xs font-black text-white max-w-[180px] truncate">${item.name}</h4>
+                                <h4 class="text-xs font-black text-white max-w-[150px] truncate">${item.name}</h4>
                                 <span class="text-[10px] text-emerald-400 font-mono">₹${item.price}</span>
                             </div>
                         </div>
@@ -680,7 +708,6 @@
             document.getElementById('cart-total-label').innerText = `₹${totalSum}`;
         }
 
-        // Checkout Real Gateway System Functionalities
         function selectCorePaymentMethod(method) {
             activePaymentSystemMode = method;
             const btnUpi = document.getElementById('pay-btn-upi');
@@ -768,7 +795,6 @@
             navigateToRoute('home-node');
         }
 
-        // Live Trace Tracker Engine Lookup Route
         function executeOrderTrackingLookup() {
             const queryId = document.getElementById('search-tracking-id').value.trim();
             const resultCard = document.getElementById('tracking-result-card');
@@ -790,7 +816,6 @@
             }
         }
 
-        // Pavan Controller Core Logic Suite
         function populateAdminCategorySelectorDropdown() {
             const selector = document.getElementById('pavan-product-category');
             if(!selector) return;
@@ -895,7 +920,6 @@
             }
         }
 
-        // Ambient Lightweight Background Visual System 
         function initializeProductionWebGLStage() {
             const canvasWrapper = document.getElementById('global-webgl-physics-canvas');
             if (!canvasWrapper) return;
@@ -928,20 +952,19 @@
             scene.add(particlesMesh);
             camera.position.z = 3;
 
-            function animateWebGLFrameLoop() {
-                requestAnimationFrame(animateWebGLFrameLoop);
-                particlesMesh.rotation.y += 0.0007;
-                particlesMesh.rotation.x += 0.0003;
+            function animate() {
+                requestAnimationFrame(animate);
+                particlesMesh.rotation.y += 0.0012;
+                particlesMesh.rotation.x += 0.0006;
                 renderer.render(scene, camera);
             }
+            animate();
 
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
-
-            animateWebGLFrameLoop();
         }
     </script>
 </body>
