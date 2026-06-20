@@ -970,6 +970,23 @@
             });
         }
     </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCuZ5XzWO8Ktew08vVfY_Qhh8eCddkRi6Y",
+  authDomain: "the-pro-vibe.firebaseapp.com",
+  databaseURL: "https://the-pro-vibe-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "the-pro-vibe",
+  storageBucket: "the-pro-vibe.firebasestorage.app",
+  messagingSenderId: "416753526473",
+  appId: "1:416753526473:web:cdf082d9085ceaed368f18"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+</script>
     
 </body>
 </html>
