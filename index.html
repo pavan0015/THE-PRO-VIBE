@@ -999,5 +999,21 @@
   appId: "1:416753526473:web:cdf082d9085ceaed368f18",
   measurementId: "G-9TQBFQSL86"
 };><script>
+    function addProduct() {
+  let name = document.getElementById("name").value;
+  let price = document.getElementById("price").value;
+
+  if(name === "" || price === "") {
+    alert("Fill all fields");
+    return;
+  }
+
+  db.ref("products").push({
+    name: name,
+    price: price
+  });
+
+  alert("Product Added!");
+    }
 </body>
 </html>
