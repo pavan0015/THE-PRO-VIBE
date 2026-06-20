@@ -45,15 +45,6 @@
     </style>
 </head>
 <body id="master-body-node" class="text-slate-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950 overflow-x-hidden bg-[#020617]">
-<h2>Product Add</h2>
-
-<input id="name" placeholder="Product Name">
-<input id="price" placeholder="Price">
-<button onclick="addProduct()">Add Product</button>
-
-<hr>
-
-<div id="products"></div>
     <div id="global-webgl-physics-canvas" class="fixed inset-0 -z-50 pointer-events-none"></div>
 
     <!-- Header Navigation Matrix -->
@@ -987,113 +978,11 @@
             });
         }
     </script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-   <script const firebaseConfig = {
-  apiKey: "AIzaSyCuZ5XzWO8Ktew08vVfY_Qhh8eCddkRi6Y",
-  authDomain: "the-pro-vibe.firebaseapp.com",
-  databaseURL: "https://the-pro-vibe-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "the-pro-vibe",
-  storageBucket: "the-pro-vibe.firebasestorage.app",
-  messagingSenderId: "416753526473",
-  appId: "1:416753526473:web:cdf082d9085ceaed368f18",
-  measurementId: "G-9TQBFQSL86"
-};><script>
-    function addProduct() {
-  let name = document.getElementById("name").value;
-  let price = document.getElementById("price").value;
-
-  if(name === "" || price === "") {
-    alert("Fill all fields");
-    return;
-  }
-
-  db.ref("products").push({
-    name: name,
-    price: price
-  });
-
-  alert("Product Added!");
-    }
-    db.ref("products").on("value", (snapshot) => {
-  let data = snapshot.val();
-  let html = "";
-
-  for (let key in data) {
-    html += `
-      <div style="padding:10px;border:1px solid #ccc;margin:5px;">
-        <h3>${data[key].name}</h3>
-        <p>₹${data[key].price}</p>
-      </div>
-    `;
-  }
-
-  document.getElementById("products").innerHTML = html;
-});
-</script>
-    <html>
-<head>
-  <title>My Store</title>
-</head>
-
-<body>
-
-  <!-- 🔥 यहाँ तुम्हारा UI code -->
-  <h2>Product Add</h2>
-
-  <input id="name" placeholder="Product Name">
-  <input id="price" placeholder="Price">
-  <button onclick="addProduct()">Add Product</button>
-
-  <hr>
-
-  <div id="products"></div>
+    
 
   <!-- 🔥 यही पूरा Firebase + JS code paste करो -->
 
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-
-  <script>
-  const firebaseConfig = {
-    apiKey: "PASTE_REAL_API_KEY",
-    authDomain: "the-pro-vibe.firebaseapp.com",
-    databaseURL: "https://the-pro-vibe-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "the-pro-vibe",
-    storageBucket: "the-pro-vibe.appspot.com",
-    messagingSenderId: "416753526473",
-    appId: "PASTE_REAL_APP_ID"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  function addProduct() {
-    let name = document.getElementById("name").value;
-    let price = document.getElementById("price").value;
-
-    db.ref("products").push({ name, price });
-  }
-
-  db.ref("products").on("value", (snapshot) => {
-    let data = snapshot.val();
-    let html = "";
-
-    if (data) {
-      for (let key in data) {
-        html += `
-          <div>
-            <h3>${data[key].name}</h3>
-            <p>₹${data[key].price}</p>
-          </div>
-        `;
-      }
-    }
-
-    document.getElementById("products").innerHTML = html;
-  });
-  </script>
-
 </body>
 </html>
-</body>
