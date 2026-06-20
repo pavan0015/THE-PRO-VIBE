@@ -987,6 +987,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 </script>
+    <script>
+db.ref("test").set({
+  message: "Firebase Connected"
+});
+    </script>
     
 </body>
 </html>
