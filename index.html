@@ -45,7 +45,15 @@
     </style>
 </head>
 <body id="master-body-node" class="text-slate-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950 overflow-x-hidden bg-[#020617]">
+<h2>Product Add</h2>
 
+<input id="name" placeholder="Product Name">
+<input id="price" placeholder="Price">
+<button onclick="addProduct()">Add Product</button>
+
+<hr>
+
+<div id="products"></div>
     <div id="global-webgl-physics-canvas" class="fixed inset-0 -z-50 pointer-events-none"></div>
 
     <!-- Header Navigation Matrix -->
