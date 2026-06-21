@@ -987,12 +987,33 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 </script>   
-<script> products
-   product1
-      name
-      price
-      image
-      description </script>
-    
+ import { getDatabase, ref, onValue } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const db = getDatabase(app);
+
+const productRef = ref(db, "products");
+
+onValue(productRef, (snapshot) => {
+
+  const data = snapshot.val();
+  const box = document.getElementById("products");
+
+  box.innerHTML = "";
+
+  for (let id in data) {
+    let p = data[id];
+
+    box.innerHTML += `
+      <div style="border:1px solid #ccc;padding:10px;margin:10px;">
+        <img src="${p.image}" width="100">
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
+        <p>${p.description}</p>
+      </div>
+    `;
+  }
+
+});
 </body>
 </html>
