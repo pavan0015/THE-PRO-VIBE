@@ -921,6 +921,7 @@
 
                 mutationsActiveCatalog.push(newProduct);
                 localStorage.setItem('pavan_catalog', JSON.stringify(mutationsActiveCatalog));
+                db.ref("products").push(newProduct);
                 
                 document.getElementById('pavan-product-name').value = '';
                 document.getElementById('pavan-product-price').value = '';
