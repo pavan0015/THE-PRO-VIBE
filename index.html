@@ -1015,6 +1015,21 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 </script> 
-    
+    db.ref("products").on("value", (snapshot) => {
+
+    const data = snapshot.val();
+
+    if (!data) return;
+
+    mutationsActiveCatalog = [];
+
+    for (let key in data) {
+        mutationsActiveCatalog.push(data[key]);
+    }
+
+    recompileStorefrontCatalogueDisplayGrid();
+
+});
+
 </body>
 </html>
