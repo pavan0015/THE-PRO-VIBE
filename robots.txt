@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://pavan0015.github.io/THE-PRO-VIBE/sitemap.xml
+google.com, pub-7438179861191355, DIRECT, f08c47fec0942fa0
