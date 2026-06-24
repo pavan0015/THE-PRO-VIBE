@@ -551,6 +551,18 @@ function selectCOD(){
                         <div class="text-xs font-mono">
                             <p class="text-slate-300 font-black">Select Live Hex Spectrum Color</p>
                             <p class="text-[10px] text-slate-500">Changes apply globally instantly on PC or Mobile viewport grids.</p>
+                            <div class="flex items-center gap-4 bg-slate-900 p-3 rounded-xl border border-slate-850 mt-3">
+    <input type="color" id="pavan-btn-picker"
+           oninput="applyButtonColor(this.value)"
+           class="w-12 h-10 rounded-xl cursor-pointer border-0 bg-transparent">
+
+    <div class="text-xs font-mono">
+        <p class="text-slate-300 font-black">Button Color Controller</p>
+        <p class="text-[10px] text-slate-500">
+            Change all website buttons instantly.
+        </p>
+    </div>
+</div>
                         </div>
                     </div>
                 </div>
@@ -684,6 +696,14 @@ function selectCOD(){
             document.body.style.backgroundColor = hexValue;
             if(document.getElementById('pavan-bg-picker')) document.getElementById('pavan-bg-picker').value = hexValue;
         }
+        function applyButtonColor(color) {
+
+    document.querySelectorAll('button').forEach(btn => {
+        btn.style.backgroundColor = color;
+    });
+
+    db.ref("settings/buttonColor").set(color);
+}
 
         function toggleNavigationDrawerState(isOpen) {
             const sidebar = document.getElementById('sidebar-navigation-drawer');
@@ -1205,6 +1225,17 @@ const db = firebase.database();
     }
 
     recompileStorefrontCatalogueDisplayGrid();
+
+});
+    db.ref("settings/buttonColor").on("value", (snapshot) => {
+
+    const color = snapshot.val();
+
+    if (!color) return;
+
+    document.querySelectorAll('button').forEach(btn => {
+        btn.style.backgroundColor = color;
+    });
 
 });
 </script> 
